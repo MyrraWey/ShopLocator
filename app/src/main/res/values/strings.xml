@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ShopLocator</string>
+
+    <string name="shops_list_empty_text">The shops list is empty!</string>
+    <string name="create_new_shop">Create new Shop</string>
+
+    <string name="fragment_create_shop_save">Save</string>
+    <string name="fragment_create_shop_image_url">Image URL</string>
+    <string name="fragment_create_shop_title">Shop Title</string>
+    <string name="fragment_create_shop_coord">Shop Coordinats</string>
+    <string name="fragment_create_shop_owner">Shop Owner</string>
 </resources>

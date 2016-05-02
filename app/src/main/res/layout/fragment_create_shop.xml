@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/fragment_create_shop_image"
+        android:layout_width="@dimen/fragment_create_shop_image_width"
+        android:layout_height="@dimen/fragment_create_shop_image_height"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/fragment_create_shop_image_padding"
+        tools:src="@drawable/shop_icon"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/fragment_create_shop_image_url_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/fragment_create_shop_image"
+        android:layout_marginLeft="@dimen/fragment_create_shop_margin_horizontal"
+        android:layout_marginRight="@dimen/fragment_create_shop_margin_horizontal">
+
+        <EditText
+            android:id="@+id/fragment_create_shop_image_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fragment_create_shop_image_url"
+            android:inputType="textUri"
+            android:textSize="@dimen/fragment_create_shop_text_size"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/fragment_create_shop_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/fragment_create_shop_image_url_layout"
+        android:layout_marginLeft="@dimen/fragment_create_shop_margin_horizontal"
+        android:layout_marginRight="@dimen/fragment_create_shop_margin_horizontal">
+
+        <EditText
+            android:id="@+id/fragment_create_shop_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fragment_create_shop_title"
+            android:inputType="text"
+            android:textSize="@dimen/fragment_create_shop_text_size"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/fragment_create_shop_coord_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/fragment_create_shop_title_layout"
+        android:layout_marginLeft="@dimen/fragment_create_shop_margin_horizontal"
+        android:layout_marginRight="@dimen/fragment_create_shop_margin_horizontal">
+
+        <EditText
+            android:id="@+id/fragment_create_shop_coord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fragment_create_shop_coord"
+            android:inputType="text"
+            android:textSize="@dimen/fragment_create_shop_text_size"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/fragment_create_shop_owner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/fragment_create_shop_coord_layout"
+        android:layout_marginLeft="@dimen/fragment_create_shop_margin_horizontal"
+        android:layout_marginRight="@dimen/fragment_create_shop_margin_horizontal">
+
+        <EditText
+            android:id="@+id/fragment_create_shop_owner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/fragment_create_shop_coord_layout"
+            android:hint="@string/fragment_create_shop_owner"
+            android:inputType="text"
+            android:textSize="@dimen/fragment_create_shop_text_size"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/fragment_create_shop_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/fragment_create_shop_owner_layout"
+        android:layout_alignRight="@+id/fragment_create_shop_owner_layout"
+        android:layout_below="@+id/fragment_create_shop_owner_layout"
+        android:text="@string/fragment_create_shop_save"/>
+
+</RelativeLayout>

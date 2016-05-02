@@ -13,7 +13,19 @@ public class Shop {
     private String mImageUrl;
 
     public Shop() {
-        this.mID = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public Shop(UUID id) {
+        this.mID = id;
+    }
+
+    public Shop(String id) {
+        this.mID = UUID.fromString(id);
+    }
+
+    public UUID getID() {
+        return mID;
     }
 
     public String getTitle() {

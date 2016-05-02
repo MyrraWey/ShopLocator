@@ -1,8 +1,16 @@
 package com.muravyovdmitr.shoplocator.data;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.muravyovdmitr.shoplocator.database.DbSchema.ShopTable;
+import com.muravyovdmitr.shoplocator.database.ShopLocatorDbHelper;
+import com.muravyovdmitr.shoplocator.database.ShopsCursorWrapper;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by MyrraWey on 02.05.2016.
@@ -10,36 +18,62 @@ import java.util.Random;
 public class ShopFactory {
     private static ShopFactory mShopFactory;
 
-    private List<Shop> mShops;
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
 
-    public static ShopFactory getInstance() {
+    public static ShopFactory getInstance(Context context) {
         if (mShopFactory == null) {
-            mShopFactory = new ShopFactory();
+            mShopFactory = new ShopFactory(context);
         }
 
         return mShopFactory;
     }
 
-    private ShopFactory() {
-        this.mShops = new ArrayList<>();
-        generateShops(20);
+    private ShopFactory(Context context) {
+        this.mContext = context;
+        this.mDatabase = new ShopLocatorDbHelper(this.mContext).getWritableDatabase();
     }
 
-    private void generateShops(int count) {
-        Random rand = new Random();
+    private ContentValues getContentValues(Shop shop) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ShopTable.COLUMNS.UUID, shop.getID().toString());
+        contentValues.put(ShopTable.COLUMNS.TITLE, shop.getTitle());
+        contentValues.put(ShopTable.COLUMNS.COORD, shop.getCoord());
+        contentValues.put(ShopTable.COLUMNS.OWNER, shop.getOwner());
+        contentValues.put(ShopTable.COLUMNS.IMAGE_URL, shop.getImageUrl());
 
-        for (int i = 0; i < count; i++) {
-            Shop shop = new Shop();
-            shop.setTitle("Shop #" + (i + 1));
-            shop.setCoord("Coord #" + (i + 1));
-            shop.setOwner("Owner #" + (i + 1));
-            shop.setImageUrl("http://lorempixel.com/200/200/?" + rand.nextInt());
+        return contentValues;
+    }
 
-            this.mShops.add(shop);
-        }
+    private ShopsCursorWrapper queryCrime(String whereClause, String[] whereArgs){
+        Cursor cursor = this.mDatabase.query(
+                ShopTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+
+        return new ShopsCursorWrapper(cursor);
     }
 
     public List<Shop> getShops() {
-        return this.mShops;
+        List<Shop> shops = new ArrayList<>();
+
+        ShopsCursorWrapper cursor = queryCrime(null, null);
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                shops.add(cursor.getShop());
+
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return shops;
     }
 }
