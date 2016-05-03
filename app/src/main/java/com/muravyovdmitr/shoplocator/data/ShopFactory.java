@@ -76,4 +76,9 @@ public class ShopFactory {
 
         return shops;
     }
+
+    public void addShop(Shop shop) {
+        ContentValues contentValues = getContentValues(shop);
+        this.mDatabase.insert(ShopTable.NAME, null, contentValues);
+    }
 }

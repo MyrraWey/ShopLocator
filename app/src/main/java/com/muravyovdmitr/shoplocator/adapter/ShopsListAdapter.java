@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.holder.IShopHolder;
 import com.muravyovdmitr.shoplocator.holder.ShopsListHolder;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 /**
  * Created by MyrraWey on 02.05.2016.
  */
-public class ShopsListAdapter extends RecyclerView.Adapter {
+public class ShopsListAdapter extends RecyclerView.Adapter<ShopsListHolder> {
     private List<Shop> mShops;
 
     public ShopsListAdapter(List<Shop> shops) {
@@ -23,7 +22,7 @@ public class ShopsListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ShopsListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.holder_shops_list_item, parent, false);
 
@@ -31,11 +30,11 @@ public class ShopsListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(ShopsListHolder holder, int position) {
         Shop shop = this.mShops.get(position);
 
 
-        ((IShopHolder) holder).bind(shop);
+        holder.bind(shop);
     }
 
     @Override

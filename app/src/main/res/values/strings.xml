@@ -7,6 +7,11 @@
     <string name="fragment_create_shop_save">Save</string>
     <string name="fragment_create_shop_image_url">Image URL</string>
     <string name="fragment_create_shop_title">Shop Title</string>
-    <string name="fragment_create_shop_coord">Shop Coordinats</string>
+    <string name="fragment_create_shop_coord">Shop Coordinates</string>
     <string name="fragment_create_shop_owner">Shop Owner</string>
+    <string name="fragment_create_shop_image_url_error">Image URL must be filled!</string>
+    <string name="fragment_create_shop_title_error">Shop Title must be filled!</string>
+    <string name="fragment_create_shop_coord_error">Shop Coordinates must be filled!</string>
+    <string name="fragment_create_shop_owner_error">Shop Owner must be filled!</string>
+    <string name="fragment_create_shop_error_message">All fields must be filled!</string>
 </resources>

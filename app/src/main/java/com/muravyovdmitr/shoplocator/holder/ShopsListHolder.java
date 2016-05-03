@@ -13,7 +13,7 @@ import com.muravyovdmitr.shoplocator.util.ImageLoader;
 /**
  * Created by MyrraWey on 02.05.2016.
  */
-public class ShopsListHolder extends RecyclerView.ViewHolder implements IShopHolder {
+public class ShopsListHolder extends RecyclerView.ViewHolder {
     private Shop mShop;
     private Context mContext;
 
@@ -33,7 +33,6 @@ public class ShopsListHolder extends RecyclerView.ViewHolder implements IShopHol
         this.mShopOwner = (TextView) itemView.findViewById(R.id.shops_list_item_owner);
     }
 
-    @Override
     public void bind(Shop shop) {
         this.mShop = shop;
 
