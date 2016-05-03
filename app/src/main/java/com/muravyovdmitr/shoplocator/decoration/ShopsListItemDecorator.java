@@ -1,4 +1,4 @@
-package com.muravyovdmitr.shoplocator.deckorator;
+package com.muravyovdmitr.shoplocator.decoration;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

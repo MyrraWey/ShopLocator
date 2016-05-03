@@ -8,12 +8,12 @@ import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.util.Utils;
+import com.muravyovdmitr.shoplocator.util.ImageLoader;
 
 /**
  * Created by MyrraWey on 02.05.2016.
  */
-public class ShopsListHolder extends RecyclerView.ViewHolder {
+public class ShopsListHolder extends RecyclerView.ViewHolder implements IShopHolder {
     private Shop mShop;
     private Context mContext;
 
@@ -33,12 +33,13 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
         this.mShopOwner = (TextView) itemView.findViewById(R.id.shops_list_item_owner);
     }
 
+    @Override
     public void bind(Shop shop) {
         this.mShop = shop;
 
         this.mShopTitle.setText(shop.getTitle());
         this.mShopCoord.setText(shop.getCoord());
         this.mShopOwner.setText(shop.getOwner());
-        Utils.loadBitmapByUrl(this.mContext, shop.getImageUrl(), this.mShopImage);
+        ImageLoader.loadBitmapByUrl(this.mContext, shop.getImageUrl(), this.mShopImage);
     }
 }
