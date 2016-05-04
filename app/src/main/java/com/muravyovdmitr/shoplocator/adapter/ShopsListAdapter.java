@@ -17,6 +17,14 @@ import java.util.List;
 public class ShopsListAdapter extends RecyclerView.Adapter<ShopsListHolder> {
     private List<Shop> mShops;
 
+    private IOnShopRemove mOnShopRemove = new IOnShopRemove() {
+        @Override
+        public void removeShop(int position) {
+            mShops.remove(position);
+            notifyItemRemoved(position);
+        }
+    };
+
     public ShopsListAdapter(List<Shop> shops) {
         this.mShops = shops;
     }
@@ -33,7 +41,7 @@ public class ShopsListAdapter extends RecyclerView.Adapter<ShopsListHolder> {
     public void onBindViewHolder(ShopsListHolder holder, int position) {
         Shop shop = this.mShops.get(position);
 
-
+        holder.setOnShopRemove(this.mOnShopRemove);
         holder.bind(shop);
     }
 

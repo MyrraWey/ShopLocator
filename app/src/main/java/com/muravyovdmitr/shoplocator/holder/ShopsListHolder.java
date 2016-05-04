@@ -1,11 +1,7 @@
 package com.muravyovdmitr.shoplocator.holder;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.adapter.IOnShopRemove;
 import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
 import com.muravyovdmitr.shoplocator.fragment.CreateShopFragment;
@@ -26,6 +23,7 @@ import com.muravyovdmitr.shoplocator.util.ImageLoader;
 public class ShopsListHolder extends RecyclerView.ViewHolder {
     private Shop mShop;
     private Context mContext;
+    private IOnShopRemove mOnShopRemove;
 
     private ImageView mShopImage;
     private TextView mShopTitle;
@@ -57,6 +55,10 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
                         public void onClick(DialogInterface dialog, int which) {
                             //TODO how to update adapter from here
                             ShopFactory.getInstance(mContext).deleteShop(mShop);
+
+                            if(mOnShopRemove != null) {
+                                mOnShopRemove.removeShop(getAdapterPosition());
+                            }
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -93,5 +95,9 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
         this.mShopCoord.setText(shop.getCoord());
         this.mShopOwner.setText(shop.getOwner());
         ImageLoader.loadBitmapByUrl(this.mContext, shop.getImageUrl(), this.mShopImage);
+    }
+
+    public void setOnShopRemove(IOnShopRemove shopRemove) {
+        this.mOnShopRemove = shopRemove;
     }
 }
