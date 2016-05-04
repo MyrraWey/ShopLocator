@@ -11,6 +11,7 @@ import com.muravyovdmitr.shoplocator.database.ShopsCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by MyrraWey on 02.05.2016.
@@ -45,7 +46,7 @@ public class ShopFactory {
         return contentValues;
     }
 
-    private ShopsCursorWrapper queryCrime(String whereClause, String[] whereArgs){
+    private ShopsCursorWrapper queryCrime(String whereClause, String[] whereArgs) {
         Cursor cursor = this.mDatabase.query(
                 ShopTable.NAME,
                 null,
@@ -77,8 +78,48 @@ public class ShopFactory {
         return shops;
     }
 
+    public Shop getShop(UUID id) {
+        ShopsCursorWrapper cursor = queryCrime(
+                ShopTable.COLUMNS.UUID + " = ?",
+                new String[]{id.toString()}
+        );
+
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+
+            cursor.moveToFirst();
+            return cursor.getShop();
+        } finally {
+            cursor.close();
+        }
+    }
+
     public void addShop(Shop shop) {
         ContentValues contentValues = getContentValues(shop);
         this.mDatabase.insert(ShopTable.NAME, null, contentValues);
+    }
+
+    public void updateShop(Shop shop) {
+        ContentValues values = getContentValues(shop);
+
+        mDatabase.update(
+                ShopTable.NAME,
+                values,
+                ShopTable.COLUMNS.UUID + " = ?",
+                new String[]{shop.getID().toString()}
+        );
+    }
+
+    public void deleteShop(Shop shop) {
+        ContentValues content = getContentValues(shop);
+
+        this.mDatabase.delete(
+                ShopTable.NAME,
+                ShopTable.COLUMNS.UUID + " = ?",
+                new String[]{shop.getID().toString()}
+        );
+
     }
 }

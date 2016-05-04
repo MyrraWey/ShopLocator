@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/create_new_shop"/>
+            android:text="@string/shops_list_create_new_shop"/>
 
     </LinearLayout>
 

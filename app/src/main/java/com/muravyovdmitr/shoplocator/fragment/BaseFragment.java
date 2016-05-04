@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,7 +16,8 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getResource(), container, false);
+        View view = inflater.inflate(getViewResource(), container, false);
+        setHasOptionsMenu(true);
 
         findView(view);
 
@@ -23,9 +26,17 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
-    protected abstract int getResource();
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(getMenuResource(), menu);
+    }
+
+    protected abstract int getViewResource();
 
     protected abstract void findView(View view);
 
     protected abstract void setupData();
+
+    protected abstract int getMenuResource();
 }

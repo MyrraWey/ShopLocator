@@ -3,6 +3,7 @@ package com.muravyovdmitr.shoplocator.fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,24 +22,19 @@ public class ShopsListFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private ShopsListAdapter mShopsListAdapter;
 
-    private View.OnClickListener mClickListener = new View.OnClickListener() {
+    private View.OnClickListener mCreateShopButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.shops_list_empty_create_shop:
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.single_fragment_fragment_container, new CreateShopFragment())
-                            .addToBackStack(null)
-                            .commit();
+                    createNewShop();
                     break;
             }
         }
     };
 
     @Override
-    protected int getResource() {
+    protected int getViewResource() {
         return R.layout.fragment_shops_list;
     }
 
@@ -51,7 +47,7 @@ public class ShopsListFragment extends BaseFragment {
 
     @Override
     protected void setupData() {
-        this.mCreateShopButton.setOnClickListener(mClickListener);
+        this.mCreateShopButton.setOnClickListener(mCreateShopButtonClick);
 
         this.mShopsListAdapter = new ShopsListAdapter(ShopFactory.getInstance(getContext()).getShops());
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -62,8 +58,33 @@ public class ShopsListFragment extends BaseFragment {
         setListVisibility(this.mShopsListAdapter.getItemCount() != 0);
     }
 
+    @Override
+    protected int getMenuResource() {
+        return R.menu.fragment_shops_list_menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_shops_list_create_shop:
+                createNewShop();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void setListVisibility(boolean isVisible) {
         this.mEmptyBlock.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
         this.mRecyclerView.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void createNewShop() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.single_fragment_fragment_container, new CreateShopFragment())
+                .addToBackStack(null)
+                .commit();
     }
 }

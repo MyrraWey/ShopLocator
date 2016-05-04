@@ -2,9 +2,11 @@
     <string name="app_name">ShopLocator</string>
 
     <string name="shops_list_empty_text">The shops list is empty!</string>
-    <string name="create_new_shop">Create new Shop</string>
+    <string name="shops_list_create_new_shop">Create new Shop</string>
+    <string name="shops_list_delete_dialog_title">Do you really want to delete this shop?</string>
 
     <string name="fragment_create_shop_save">Save</string>
+    <string name="fragment_create_shop_changes">Save changes</string>
     <string name="fragment_create_shop_image_url">Image URL</string>
     <string name="fragment_create_shop_title">Shop Title</string>
     <string name="fragment_create_shop_coord">Shop Coordinates</string>
@@ -14,4 +16,6 @@
     <string name="fragment_create_shop_coord_error">Shop Coordinates must be filled!</string>
     <string name="fragment_create_shop_owner_error">Shop Owner must be filled!</string>
     <string name="fragment_create_shop_error_message">All fields must be filled!</string>
+
+    <string name="menu_shops_list_create_shop">Add new</string>
 </resources>

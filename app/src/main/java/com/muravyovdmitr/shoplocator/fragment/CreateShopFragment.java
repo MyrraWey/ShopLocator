@@ -1,5 +1,7 @@
 package com.muravyovdmitr.shoplocator.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +17,16 @@ import com.muravyovdmitr.shoplocator.util.KeyboardManager;
 import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by MyrraWey on 02.05.2016.
  */
 public class CreateShopFragment extends BaseFragment {
+    private static final String LOADED_SHOP_ID = "loadedShopId";
+
     private Shop mShop;
+    private boolean mLoaded;
     private TextInputLayout[] mValidationFields;
 
     private ImageView mShopImage;
@@ -54,13 +60,47 @@ public class CreateShopFragment extends BaseFragment {
             mShop.setTitle(mShopTitle.getText().toString());
             mShop.setCoord(mShopCoord.getText().toString());
 
-            ShopFactory.getInstance(getContext()).addShop(mShop);
+            if(mLoaded) {
+                ShopFactory.getInstance(getContext()).updateShop(mShop);
+            } else {
+                ShopFactory.getInstance(getContext()).addShop(mShop);
+            }
+
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 
+    public static CreateShopFragment newInstance(UUID id) {
+        Bundle args = new Bundle();
+        args.putSerializable(LOADED_SHOP_ID, id);
+
+        CreateShopFragment fragment = new CreateShopFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
     @Override
-    protected int getResource() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle args = this.getArguments();
+        UUID id = (args != null) ? (UUID) args.getSerializable(LOADED_SHOP_ID) : null;
+        if(id != null) {
+            this.mLoaded = true;
+
+            this.mShop = ShopFactory.getInstance(getContext()).getShop(id);
+        } else {
+            this.mLoaded = false;
+
+            this.mShop = new Shop();
+            Random rand = new Random();
+            this.mShop.setImageUrl("http://lorempixel.com/200/200/?" + rand.nextInt());
+        }
+    }
+
+    @Override
+    protected int getViewResource() {
         return R.layout.fragment_create_shop;
     }
 
@@ -87,24 +127,23 @@ public class CreateShopFragment extends BaseFragment {
                 mShopTitleLayout
         };
 
-        this.mShop = new Shop();
-        Random rand = new Random();
-        this.mShop.setImageUrl("http://lorempixel.com/200/200/?" + rand.nextInt());
-
         this.mImageUrl.setText(this.mShop.getImageUrl());
-        this.mImageUrl.setEnabled(false);
+        this.mImageUrl.setEnabled(this.mLoaded);
         this.mImageUrl.addTextChangedListener(
                 new SingleTextWatcher(this.mImageUrlLayout, getActivity().getResources().getString(R.string.fragment_create_shop_image_url_error))
         );
 
+        this.mShopTitle.setText(this.mShop.getTitle());
         this.mShopTitle.addTextChangedListener(
                 new SingleTextWatcher(this.mShopTitleLayout, getActivity().getResources().getString(R.string.fragment_create_shop_title_error))
         );
 
+        this.mShopOwner.setText(this.mShop.getOwner());
         this.mShopOwner.addTextChangedListener(
                 new SingleTextWatcher(this.mShopOwnerLayout, getActivity().getResources().getString(R.string.fragment_create_shop_owner_error))
         );
 
+        this.mShopCoord.setText(this.mShop.getCoord());
         this.mShopCoord.addTextChangedListener(
                 new SingleTextWatcher(this.mShopCoordLayout, getActivity().getResources().getString(R.string.fragment_create_shop_coord_error))
         );
@@ -112,6 +151,12 @@ public class CreateShopFragment extends BaseFragment {
         ImageLoader.loadBitmapByUrl(getContext(), this.mShop.getImageUrl(), this.mShopImage);
 
         this.mSaveShop.setOnClickListener(this.mClickListener);
+        this.mSaveShop.setText(this.mLoaded ? getResources().getString(R.string.fragment_create_shop_changes) : getResources().getString(R.string.fragment_create_shop_save));
+    }
+
+    @Override
+    protected int getMenuResource() {
+        return R.menu.fragment_crate_shop_menu;
     }
 
     private boolean validateDataFields(TextInputLayout... textInputLayouts) {

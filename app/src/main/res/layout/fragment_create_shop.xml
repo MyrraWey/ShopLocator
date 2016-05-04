@@ -99,11 +99,12 @@
 
     <Button
         android:id="@+id/fragment_create_shop_save"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fragment_create_shop_save"
+        android:layout_alignEnd="@+id/fragment_create_shop_owner_layout"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/fragment_create_shop_owner_layout"
-        android:layout_alignEnd="@+id/fragment_create_shop_owner_layout"/>
+        android:text="@string/fragment_create_shop_save"/>
 
 </RelativeLayout>
