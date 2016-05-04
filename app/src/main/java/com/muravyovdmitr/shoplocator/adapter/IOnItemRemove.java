@@ -3,8 +3,8 @@ package com.muravyovdmitr.shoplocator.adapter;
 /**
  * Created by MyrraWey on 04.05.2016.
  */
-public interface IOnShopRemove {
+public interface IOnItemRemove {
 
-    void removeShop(int position);
+    void removeItem(int position);
 
 }

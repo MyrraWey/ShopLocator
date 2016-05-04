@@ -17,9 +17,9 @@ import java.util.List;
 public class ShopsListAdapter extends RecyclerView.Adapter<ShopsListHolder> {
     private List<Shop> mShops;
 
-    private IOnShopRemove mOnShopRemove = new IOnShopRemove() {
+    private IOnItemRemove mOnShopRemove = new IOnItemRemove() {
         @Override
-        public void removeShop(int position) {
+        public void removeItem(int position) {
             mShops.remove(position);
             notifyItemRemoved(position);
         }

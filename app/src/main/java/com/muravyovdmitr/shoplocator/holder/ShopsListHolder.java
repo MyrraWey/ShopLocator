@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
-import com.muravyovdmitr.shoplocator.adapter.IOnShopRemove;
+import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
 import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
 import com.muravyovdmitr.shoplocator.fragment.CreateShopFragment;
@@ -23,7 +23,7 @@ import com.muravyovdmitr.shoplocator.util.ImageLoader;
 public class ShopsListHolder extends RecyclerView.ViewHolder {
     private Shop mShop;
     private Context mContext;
-    private IOnShopRemove mOnShopRemove;
+    private IOnItemRemove mOnShopRemove;
 
     private ImageView mShopImage;
     private TextView mShopTitle;
@@ -57,7 +57,7 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
                             ShopFactory.getInstance(mContext).deleteShop(mShop);
 
                             if(mOnShopRemove != null) {
-                                mOnShopRemove.removeShop(getAdapterPosition());
+                                mOnShopRemove.removeItem(getAdapterPosition());
                             }
                         }
                     })
@@ -97,7 +97,7 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
         ImageLoader.loadBitmapByUrl(this.mContext, shop.getImageUrl(), this.mShopImage);
     }
 
-    public void setOnShopRemove(IOnShopRemove shopRemove) {
+    public void setOnShopRemove(IOnItemRemove shopRemove) {
         this.mOnShopRemove = shopRemove;
     }
 }
