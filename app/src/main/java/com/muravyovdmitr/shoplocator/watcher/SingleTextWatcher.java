@@ -29,13 +29,11 @@ public class SingleTextWatcher implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (isValid(s.toString())) {
+            mLayout.setError(null);
             mLayout.setErrorEnabled(false);
         } else {
-            //TODO error shows only first time, fix
+            this.mLayout.setError(mErrorText);
             this.mLayout.setErrorEnabled(true);
-            if (this.mLayout.getError() == null) {
-                this.mLayout.setError(mErrorText);
-            }
         }
     }
 
