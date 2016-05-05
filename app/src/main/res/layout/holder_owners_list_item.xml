@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/owners_list_item_background">
+
+    <ImageView
+        android:id="@+id/owners_list_item_image"
+        android:layout_width="@dimen/holder_owners_list_image_width"
+        android:layout_height="@dimen/holder_owners_list_image_height"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/holder_owners_list_item_margin"
+        tools:src="@drawable/shop_icon"/>
+
+    <TextView
+        android:id="@+id/owners_list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/holder_owners_list_item_margin"
+        android:layout_toEndOf="@+id/owners_list_item_image"
+        android:layout_toRightOf="@+id/owners_list_item_image"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:text="Large Text"/>
+
+    <TextView
+        android:id="@+id/owners_list_item_owner_shops"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/owners_list_item_name"
+        android:layout_alignStart="@+id/owners_list_item_name"
+        android:layout_below="@+id/owners_list_item_name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="Medium Text"/>
+</RelativeLayout>

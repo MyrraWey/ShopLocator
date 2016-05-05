@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.muravyovdmitr.shoplocator.database.DbSchema.OwnerTable;
 import com.muravyovdmitr.shoplocator.database.DbSchema.ShopTable;
+import com.muravyovdmitr.shoplocator.database.OwnersCursorWrapper;
 import com.muravyovdmitr.shoplocator.database.ShopLocatorDbHelper;
 import com.muravyovdmitr.shoplocator.database.ShopsCursorWrapper;
 
@@ -35,9 +37,11 @@ public class ShopFactory {
         this.mDatabase = new ShopLocatorDbHelper(this.mContext).getWritableDatabase();
     }
 
+    // SHOP PAERT START
+
     private ContentValues getContentValues(Shop shop) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ShopTable.COLUMNS.UUID, shop.getID().toString());
+        contentValues.put(ShopTable.COLUMNS.UUID, shop.getId().toString());
         contentValues.put(ShopTable.COLUMNS.TITLE, shop.getTitle());
         contentValues.put(ShopTable.COLUMNS.COORD, shop.getCoord());
         contentValues.put(ShopTable.COLUMNS.OWNER, shop.getOwner());
@@ -46,7 +50,7 @@ public class ShopFactory {
         return contentValues;
     }
 
-    private ShopsCursorWrapper queryCrime(String whereClause, String[] whereArgs) {
+    private ShopsCursorWrapper queryShop(String whereClause, String[] whereArgs) {
         Cursor cursor = this.mDatabase.query(
                 ShopTable.NAME,
                 null,
@@ -63,7 +67,7 @@ public class ShopFactory {
     public List<Shop> getShops() {
         List<Shop> shops = new ArrayList<>();
 
-        ShopsCursorWrapper cursor = queryCrime(null, null);
+        ShopsCursorWrapper cursor = queryShop(null, null);
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -79,7 +83,7 @@ public class ShopFactory {
     }
 
     public Shop getShop(UUID id) {
-        ShopsCursorWrapper cursor = queryCrime(
+        ShopsCursorWrapper cursor = queryShop(
                 ShopTable.COLUMNS.UUID + " = ?",
                 new String[]{id.toString()}
         );
@@ -108,7 +112,7 @@ public class ShopFactory {
                 ShopTable.NAME,
                 values,
                 ShopTable.COLUMNS.UUID + " = ?",
-                new String[]{shop.getID().toString()}
+                new String[]{shop.getId().toString()}
         );
     }
 
@@ -118,7 +122,95 @@ public class ShopFactory {
         this.mDatabase.delete(
                 ShopTable.NAME,
                 ShopTable.COLUMNS.UUID + " = ?",
-                new String[]{shop.getID().toString()}
+                new String[]{shop.getId().toString()}
+        );
+
+    }
+
+    // OWNER PART START
+
+    private ContentValues getContentValues(Owner owner) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(OwnerTable.COLUMNS.UUID, owner.getId().toString());
+        contentValues.put(OwnerTable.COLUMNS.NAME, owner.getName());
+        contentValues.put(OwnerTable.COLUMNS.IMAGE_URL, owner.getImageUrl());
+
+        return contentValues;
+    }
+
+    private OwnersCursorWrapper queryOwner(String whereClause, String[] whereArgs) {
+        Cursor cursor = this.mDatabase.query(
+                OwnerTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+
+        return new OwnersCursorWrapper(cursor);
+    }
+
+    public List<Owner> getOwners() {
+        List<Owner> owners = new ArrayList<>();
+
+        OwnersCursorWrapper cursor = queryOwner(null, null);
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                owners.add(cursor.getOwner());
+
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return owners;
+    }
+
+    public Owner getOwner(UUID id) {
+        OwnersCursorWrapper cursor = queryOwner(
+                OwnerTable.COLUMNS.UUID + " = ?",
+                new String[]{id.toString()}
+        );
+
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+
+            cursor.moveToFirst();
+            return cursor.getOwner();
+        } finally {
+            cursor.close();
+        }
+    }
+
+    public void addOwner(Owner owner) {
+        ContentValues contentValues = getContentValues(owner);
+        this.mDatabase.insert(OwnerTable.NAME, null, contentValues);
+    }
+
+    public void updateOwner(Owner owner) {
+        ContentValues values = getContentValues(owner);
+
+        mDatabase.update(
+                OwnerTable.NAME,
+                values,
+                OwnerTable.COLUMNS.UUID + " = ?",
+                new String[]{owner.getId().toString()}
+        );
+    }
+
+    public void deleteOwner(Owner owner) {
+        ContentValues content = getContentValues(owner);
+
+        this.mDatabase.delete(
+                OwnerTable.NAME,
+                OwnerTable.COLUMNS.UUID + " = ?",
+                new String[]{owner.getId().toString()}
         );
 
     }

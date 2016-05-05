@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.muravyovdmitr.shoplocator.database.DbSchema.OwnerTable;
 import com.muravyovdmitr.shoplocator.database.DbSchema.ShopTable;
 
 /**
@@ -25,6 +26,13 @@ public class ShopLocatorDbHelper extends SQLiteOpenHelper {
             ShopTable.COLUMNS.COORD + TEXT_TYPE + COMMA_SEP +
             ShopTable.COLUMNS.IMAGE_URL + TEXT_TYPE +
             " );";
+    private static final String OWNERS_TABLE_CREATE = "" +
+            "CREATE TABLE " + OwnerTable.NAME + " ( " +
+            OwnerTable.COLUMNS._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
+            OwnerTable.COLUMNS.UUID + TEXT_TYPE + COMMA_SEP +
+            OwnerTable.COLUMNS.NAME + TEXT_TYPE + COMMA_SEP +
+            OwnerTable.COLUMNS.IMAGE_URL + TEXT_TYPE +
+            " );";
 
     public ShopLocatorDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,6 +41,7 @@ public class ShopLocatorDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SHOPS_TABLE_CREATE);
+        db.execSQL(OWNERS_TABLE_CREATE);
     }
 
     @Override

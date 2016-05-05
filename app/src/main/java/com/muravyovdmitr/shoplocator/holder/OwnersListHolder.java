@@ -12,23 +12,22 @@ import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
-import com.muravyovdmitr.shoplocator.data.Shop;
+import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
-import com.muravyovdmitr.shoplocator.fragment.CreateShopFragment;
+import com.muravyovdmitr.shoplocator.fragment.CreateOwnerFragment;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 
 /**
  * Created by MyrraWey on 02.05.2016.
  */
-public class ShopsListHolder extends RecyclerView.ViewHolder {
-    private Shop mShop;
+public class OwnersListHolder extends RecyclerView.ViewHolder {
+    private Owner mOwner;
     private Context mContext;
-    private IOnItemRemove mOnShopRemove;
+    private IOnItemRemove mOnOwnerRemove;
 
-    private ImageView mShopImage;
-    private TextView mShopTitle;
-    private TextView mShopCoord;
-    private TextView mShopOwner;
+    private ImageView mOwnerImage;
+    private TextView mOwnerName;
+    private TextView mOwnerShops;
 
     private View.OnClickListener mItemClick = new View.OnClickListener() {
         @Override
@@ -38,7 +37,7 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
             fragmentManager.beginTransaction()
                     .replace(
                             R.id.single_fragment_fragment_container,
-                            CreateShopFragment.newInstance(mShop.getId())
+                            CreateOwnerFragment.newInstance(mOwner.getId())
                     )
                     .addToBackStack(null)
                     .commit();
@@ -49,14 +48,14 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
         @Override
         public boolean onLongClick(View v) {
             new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.shops_list_delete_dialog_title)
+                    .setTitle(R.string.owners_list_delete_dialog_title)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ShopFactory.getInstance(mContext).deleteShop(mShop);
+                            ShopFactory.getInstance(mContext).deleteOwner(mOwner);
 
-                            if (mOnShopRemove != null) {
-                                mOnShopRemove.removeItem(getAdapterPosition());
+                            if (mOnOwnerRemove != null) {
+                                mOnOwnerRemove.removeItem(getAdapterPosition());
                             }
                         }
                     })
@@ -72,7 +71,7 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
         }
     };
 
-    public ShopsListHolder(View itemView) {
+    public OwnersListHolder(View itemView) {
         super(itemView);
 
         itemView.setOnClickListener(this.mItemClick);
@@ -81,22 +80,21 @@ public class ShopsListHolder extends RecyclerView.ViewHolder {
 
         this.mContext = itemView.getContext();
 
-        this.mShopImage = (ImageView) itemView.findViewById(R.id.shops_list_item_image);
-        this.mShopTitle = (TextView) itemView.findViewById(R.id.shops_list_item_title);
-        this.mShopCoord = (TextView) itemView.findViewById(R.id.shops_list_item_coord);
-        this.mShopOwner = (TextView) itemView.findViewById(R.id.shops_list_item_owner);
+        this.mOwnerImage = (ImageView) itemView.findViewById(R.id.owners_list_item_image);
+        this.mOwnerName = (TextView) itemView.findViewById(R.id.owners_list_item_name);
+        this.mOwnerShops = (TextView) itemView.findViewById(R.id.owners_list_item_owner_shops);
     }
 
-    public void bind(Shop shop) {
-        this.mShop = shop;
+    public void bind(Owner owner) {
+        this.mOwner = owner;
 
-        this.mShopTitle.setText(shop.getTitle());
-        this.mShopCoord.setText(shop.getCoord());
-        this.mShopOwner.setText(shop.getOwner());
-        ImageLoader.loadBitmapByUrl(this.mContext, shop.getImageUrl(), this.mShopImage);
+        this.mOwnerName.setText(owner.getName());
+        //TODO implement owner shops list
+        this.mOwnerShops.setText("Implement owner shops here");
+        ImageLoader.loadBitmapByUrl(this.mContext, owner.getImageUrl(), this.mOwnerImage);
     }
 
-    public void setOnShopRemove(IOnItemRemove shopRemove) {
-        this.mOnShopRemove = shopRemove;
+    public void setOnOwnerRemove(IOnItemRemove ownerRemove) {
+        this.mOnOwnerRemove = ownerRemove;
     }
 }

@@ -60,7 +60,7 @@ public class CreateShopFragment extends BaseFragment {
             mShop.setTitle(mShopTitle.getText().toString());
             mShop.setCoord(mShopCoord.getText().toString());
 
-            if(mLoaded) {
+            if (mLoaded) {
                 ShopFactory.getInstance(getContext()).updateShop(mShop);
             } else {
                 ShopFactory.getInstance(getContext()).addShop(mShop);
@@ -86,7 +86,7 @@ public class CreateShopFragment extends BaseFragment {
 
         Bundle args = this.getArguments();
         UUID id = (args != null) ? (UUID) args.getSerializable(LOADED_SHOP_ID) : null;
-        if(id != null) {
+        if (id != null) {
             this.mLoaded = true;
 
             this.mShop = ShopFactory.getInstance(getContext()).getShop(id);
@@ -95,7 +95,7 @@ public class CreateShopFragment extends BaseFragment {
 
             this.mShop = new Shop();
             Random rand = new Random();
-            this.mShop.setImageUrl("http://lorempixel.com/200/200/?" + rand.nextInt());
+            this.mShop.setImageUrl("http://lorempixel.com/200/200/city?" + rand.nextInt());
         }
     }
 
@@ -156,7 +156,7 @@ public class CreateShopFragment extends BaseFragment {
 
     @Override
     protected int getMenuResource() {
-        return R.menu.fragment_crate_shop_menu;
+        return R.menu.fragment_create_shop_menu;
     }
 
     private boolean validateDataFields(TextInputLayout... textInputLayouts) {

@@ -6,7 +6,7 @@ import java.util.UUID;
  * Created by MyrraWey on 02.05.2016.
  */
 public class Shop {
-    private UUID mID;
+    private UUID mId;
     private String mTitle;
     private String mCoord;
     private String mOwner;
@@ -17,15 +17,15 @@ public class Shop {
     }
 
     public Shop(UUID id) {
-        this.mID = id;
+        this.mId = id;
     }
 
     public Shop(String id) {
-        this.mID = UUID.fromString(id);
+        this.mId = UUID.fromString(id);
     }
 
-    public UUID getID() {
-        return mID;
+    public UUID getId() {
+        return mId;
     }
 
     public String getTitle() {

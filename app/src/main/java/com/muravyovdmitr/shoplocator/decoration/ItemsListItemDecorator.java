@@ -7,7 +7,7 @@ import android.view.View;
 /**
  * Created by MyrraWey on 02.05.2016.
  */
-public class ShopsListItemDecorator extends RecyclerView.ItemDecoration {
+public class ItemsListItemDecorator extends RecyclerView.ItemDecoration {
     private final int mVerticalSpaceHeight = 16;
 
     @Override

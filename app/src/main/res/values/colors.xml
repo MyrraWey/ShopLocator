@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="shops_list_item_background">#e0e0e0</color>
+
+    <color name="owners_list_item_background">#e0e0e0</color>
 </resources>

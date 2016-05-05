@@ -9,25 +9,25 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.muravyovdmitr.shoplocator.R;
-import com.muravyovdmitr.shoplocator.adapter.ShopsListAdapter;
+import com.muravyovdmitr.shoplocator.adapter.OwnersListAdapter;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
 import com.muravyovdmitr.shoplocator.decoration.ItemsListItemDecorator;
 
 /**
  * Created by MyrraWey on 02.05.2016.
  */
-public class ShopsListFragment extends BaseFragment {
+public class OwnersListFragment extends BaseFragment {
     private LinearLayout mEmptyBlock;
-    private Button mCreateShopButton;
+    private Button mCreateOwnerButton;
     private RecyclerView mRecyclerView;
-    private ShopsListAdapter mShopsListAdapter;
+    private OwnersListAdapter mOwnersListAdapter;
 
-    private View.OnClickListener mCreateShopButtonClick = new View.OnClickListener() {
+    private View.OnClickListener mCreateOwnerButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.shops_list_empty_create_shop:
-                    createNewShop();
+                case R.id.owners_list_empty_create_owner:
+                    createNewOwner();
                     break;
             }
         }
@@ -35,39 +35,39 @@ public class ShopsListFragment extends BaseFragment {
 
     @Override
     protected int getViewResource() {
-        return R.layout.fragment_shops_list;
+        return R.layout.fragment_owners_list;
     }
 
     @Override
     protected void findView(View view) {
-        this.mEmptyBlock = (LinearLayout) view.findViewById(R.id.shops_list_empty_block);
-        this.mCreateShopButton = (Button) view.findViewById(R.id.shops_list_empty_create_shop);
-        this.mRecyclerView = (RecyclerView) view.findViewById(R.id.shops_list_recycler_view);
+        this.mEmptyBlock = (LinearLayout) view.findViewById(R.id.owners_list_empty_block);
+        this.mCreateOwnerButton = (Button) view.findViewById(R.id.owners_list_empty_create_owner);
+        this.mRecyclerView = (RecyclerView) view.findViewById(R.id.owners_list_recycler_view);
     }
 
     @Override
     protected void setupData() {
-        this.mCreateShopButton.setOnClickListener(mCreateShopButtonClick);
+        this.mCreateOwnerButton.setOnClickListener(mCreateOwnerButtonClick);
 
-        this.mShopsListAdapter = new ShopsListAdapter(ShopFactory.getInstance(getContext()).getShops());
+        this.mOwnersListAdapter = new OwnersListAdapter(ShopFactory.getInstance(getContext()).getOwners());
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         this.mRecyclerView.setHasFixedSize(true);
         this.mRecyclerView.addItemDecoration(new ItemsListItemDecorator());
-        this.mRecyclerView.setAdapter(this.mShopsListAdapter);
+        this.mRecyclerView.setAdapter(this.mOwnersListAdapter);
 
-        setListVisibility(this.mShopsListAdapter.getItemCount() != 0);
+        setListVisibility(this.mOwnersListAdapter.getItemCount() != 0);
     }
 
     @Override
     protected int getMenuResource() {
-        return R.menu.fragment_shops_list_menu;
+        return R.menu.fragment_owners_list_menu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_shops_list_create_shop:
-                createNewShop();
+            case R.id.menu_owners_list_create_owner:
+                createNewOwner();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -79,11 +79,11 @@ public class ShopsListFragment extends BaseFragment {
         this.mRecyclerView.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
     }
 
-    private void createNewShop() {
+    private void createNewOwner() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
-                .replace(R.id.single_fragment_fragment_container, new CreateShopFragment())
+                .replace(R.id.single_fragment_fragment_container, new CreateOwnerFragment())
                 .addToBackStack(null)
                 .commit();
     }

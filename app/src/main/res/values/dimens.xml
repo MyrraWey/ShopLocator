@@ -12,4 +12,14 @@
     <dimen name="fragment_create_shop_image_padding">20dp</dimen>
     <dimen name="fragment_create_shop_margin_horizontal">20dp</dimen>
     <dimen name="fragment_create_shop_text_size">16sp</dimen>
+
+    <dimen name="holder_owners_list_item_margin">4dp</dimen>
+    <dimen name="holder_owners_list_image_height">100dp</dimen>
+    <dimen name="holder_owners_list_image_width">100dp</dimen>
+
+    <dimen name="fragment_create_owner_image_height">200dp</dimen>
+    <dimen name="fragment_create_owner_image_width">200dp</dimen>
+    <dimen name="fragment_create_owner_image_padding">20dp</dimen>
+    <dimen name="fragment_create_owner_margin_horizontal">20dp</dimen>
+    <dimen name="fragment_create_owner_text_size">16sp</dimen>
 </resources>
