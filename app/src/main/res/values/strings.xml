@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">ShopLocator</string>
 
+    <string name="drawer_shops">Shops</string>
+    <string name="drawer_owners">Owners</string>
+    <string name="drawer_map">Map</string>
+
     <string name="shops_list_empty_text">The shops list is empty!</string>
     <string name="shops_list_create_new_shop">Create new Shop</string>
     <string name="shops_list_delete_dialog_title">Do you really want to delete this shop?</string>
