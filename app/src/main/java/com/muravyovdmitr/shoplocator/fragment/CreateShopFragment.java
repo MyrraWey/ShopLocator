@@ -3,6 +3,7 @@ package com.muravyovdmitr.shoplocator.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +15,12 @@ import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
+import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
+import com.muravyovdmitr.shoplocator.watcher.LocationWatcher;
 import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -27,7 +32,6 @@ public class CreateShopFragment extends BaseFragment {
 
     private Shop mShop;
     private boolean mLoaded;
-    private TextInputLayout[] mValidationFields;
 
     private ImageView mShopImage;
     private EditText mImageUrl;
@@ -43,10 +47,10 @@ public class CreateShopFragment extends BaseFragment {
     private View.OnClickListener mClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            clearLayoutErrors(mValidationFields);
+            clearLayoutErrors();
             KeyboardManager.hideKeyboard(getActivity());
 
-            if (!validateDataFields(mValidationFields)) {
+            if (!validateDataFields()) {
                 Toast.makeText(
                         getContext(),
                         getActivity().getResources().getString(R.string.fragment_create_shop_error_message),
@@ -120,33 +124,14 @@ public class CreateShopFragment extends BaseFragment {
 
     @Override
     protected void setupData() {
-        this.mValidationFields = new TextInputLayout[]{
-                mImageUrlLayout,
-                mShopCoordLayout,
-                mShopOwnerLayout,
-                mShopTitleLayout
-        };
-
         this.mImageUrl.setText(this.mShop.getImageUrl());
         this.mImageUrl.setEnabled(this.mLoaded);
-        this.mImageUrl.addTextChangedListener(
-                new SingleTextWatcher(this.mImageUrlLayout, getActivity().getResources().getString(R.string.fragment_create_shop_image_url_error))
-        );
 
         this.mShopTitle.setText(this.mShop.getTitle());
-        this.mShopTitle.addTextChangedListener(
-                new SingleTextWatcher(this.mShopTitleLayout, getActivity().getResources().getString(R.string.fragment_create_shop_title_error))
-        );
 
         this.mShopOwner.setText(this.mShop.getOwner());
-        this.mShopOwner.addTextChangedListener(
-                new SingleTextWatcher(this.mShopOwnerLayout, getActivity().getResources().getString(R.string.fragment_create_shop_owner_error))
-        );
 
         this.mShopCoord.setText(this.mShop.getCoord());
-        this.mShopCoord.addTextChangedListener(
-                new SingleTextWatcher(this.mShopCoordLayout, getActivity().getResources().getString(R.string.fragment_create_shop_coord_error))
-        );
 
         ImageLoader.loadBitmapByUrl(getContext(), this.mShop.getImageUrl(), this.mShopImage);
 
@@ -159,24 +144,26 @@ public class CreateShopFragment extends BaseFragment {
         return R.menu.fragment_create_shop_menu;
     }
 
-    private boolean validateDataFields(TextInputLayout... textInputLayouts) {
-        boolean correct = true;
+    @Override
+    protected Map<TextInputLayout, ITextValidator> getValidationMap() {
+        Map<TextInputLayout, ITextValidator> map = new HashMap<>();
+        map.put(
+                mImageUrlLayout,
+                new SingleTextWatcher(this.mImageUrlLayout, getActivity().getResources().getString(R.string.fragment_create_shop_image_url_error))
+        );
+        map.put(
+                mShopTitleLayout,
+                new SingleTextWatcher(this.mShopTitleLayout, getActivity().getResources().getString(R.string.fragment_create_shop_title_error))
+        );
+        map.put(
+                mShopOwnerLayout,
+                new SingleTextWatcher(this.mShopOwnerLayout, getActivity().getResources().getString(R.string.fragment_create_shop_owner_error))
+        );
+        map.put(
+                mShopCoordLayout,
+                new LocationWatcher(this.mShopCoordLayout, getActivity().getResources().getString(R.string.fragment_create_shop_coord_error))
+        );
 
-        for (TextInputLayout textInputLayout : textInputLayouts) {
-            String editText = textInputLayout.getEditText().getText().toString();
-            if (!SingleTextWatcher.isValid(editText)) {
-                correct = false;
-
-                break;
-            }
-        }
-
-        return correct;
-    }
-
-    private void clearLayoutErrors(TextInputLayout... textInputLayouts) {
-        for (TextInputLayout textInputLayout : textInputLayouts) {
-            textInputLayout.setErrorEnabled(false);
-        }
+        return map;
     }
 }

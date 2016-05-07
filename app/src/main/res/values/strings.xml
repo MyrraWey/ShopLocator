@@ -13,11 +13,11 @@
     <string name="fragment_create_shop_changes">Save changes</string>
     <string name="fragment_create_shop_image_url">Image URL</string>
     <string name="fragment_create_shop_title">Shop Title</string>
-    <string name="fragment_create_shop_coord">Shop Coordinates</string>
+    <string name="fragment_create_shop_coord">Shop Coordinates (format: 50[.272408], 28[50555.647304])</string>
     <string name="fragment_create_shop_owner">Shop Owner</string>
     <string name="fragment_create_shop_image_url_error">Image URL must be filled!</string>
     <string name="fragment_create_shop_title_error">Shop Title must be filled!</string>
-    <string name="fragment_create_shop_coord_error">Shop Coordinates must be filled!</string>
+    <string name="fragment_create_shop_coord_error">Shop Coordinates must be filled and match format!</string>
     <string name="fragment_create_shop_owner_error">Shop Owner must be filled!</string>
     <string name="fragment_create_shop_error_message">All fields must be filled!</string>
 

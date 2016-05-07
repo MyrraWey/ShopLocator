@@ -22,4 +22,7 @@
     <dimen name="fragment_create_owner_image_padding">20dp</dimen>
     <dimen name="fragment_create_owner_margin_horizontal">20dp</dimen>
     <dimen name="fragment_create_owner_text_size">16sp</dimen>
+
+    <dimen name="fragment_map_pager_margin">16dp</dimen>
+    <dimen name="fragment_map_pager_height">100dp</dimen>
 </resources>

@@ -10,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.muravyovdmitr.shoplocator.R;
 
@@ -39,7 +38,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.drawer_map:
-                    Toast.makeText(getApplication(), "map", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(getApplicationContext(), MapActivity.class);
+                    intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                     break;
             }
 

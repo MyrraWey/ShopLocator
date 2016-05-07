@@ -3,6 +3,7 @@ package com.muravyovdmitr.shoplocator.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +15,11 @@ import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
+import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -27,7 +31,6 @@ public class CreateOwnerFragment extends BaseFragment {
 
     private Owner mOwner;
     private boolean mLoaded;
-    private TextInputLayout[] mValidationFields;
 
     private ImageView mOwnerImage;
     private EditText mImageUrl;
@@ -39,10 +42,10 @@ public class CreateOwnerFragment extends BaseFragment {
     private View.OnClickListener mClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            clearLayoutErrors(mValidationFields);
+            clearLayoutErrors();
             KeyboardManager.hideKeyboard(getActivity());
 
-            if (!validateDataFields(mValidationFields)) {
+            if (!validateDataFields()) {
                 Toast.makeText(
                         getContext(),
                         getActivity().getResources().getString(R.string.fragment_create_owner_error_message),
@@ -110,21 +113,10 @@ public class CreateOwnerFragment extends BaseFragment {
 
     @Override
     protected void setupData() {
-        this.mValidationFields = new TextInputLayout[]{
-                mImageUrlLayout,
-                mOwnerNameLayout
-        };
-
         this.mImageUrl.setText(this.mOwner.getImageUrl());
         this.mImageUrl.setEnabled(this.mLoaded);
-        this.mImageUrl.addTextChangedListener(
-                new SingleTextWatcher(this.mImageUrlLayout, getActivity().getResources().getString(R.string.fragment_create_owner_image_url_error))
-        );
 
         this.mOwnerName.setText(this.mOwner.getName());
-        this.mOwnerName.addTextChangedListener(
-                new SingleTextWatcher(this.mOwnerNameLayout, getActivity().getResources().getString(R.string.fragment_create_owner_name_error))
-        );
 
         ImageLoader.loadBitmapByUrl(getContext(), this.mOwner.getImageUrl(), this.mOwnerImage);
 
@@ -137,24 +129,18 @@ public class CreateOwnerFragment extends BaseFragment {
         return R.menu.fragment_create_owner_menu;
     }
 
-    private boolean validateDataFields(TextInputLayout... textInputLayouts) {
-        boolean correct = true;
+    @Override
+    protected Map<TextInputLayout, ITextValidator> getValidationMap() {
+        Map<TextInputLayout, ITextValidator> map = new HashMap<>();
+        map.put(
+                this.mImageUrlLayout,
+                new SingleTextWatcher(this.mImageUrlLayout, getActivity().getResources().getString(R.string.fragment_create_owner_image_url_error))
+        );
+        map.put(
+                this.mOwnerNameLayout,
+                new SingleTextWatcher(this.mOwnerNameLayout, getActivity().getResources().getString(R.string.fragment_create_owner_name_error))
+        );
 
-        for (TextInputLayout textInputLayout : textInputLayouts) {
-            String editText = textInputLayout.getEditText().getText().toString();
-            if (!SingleTextWatcher.isValid(editText)) {
-                correct = false;
-
-                break;
-            }
-        }
-
-        return correct;
-    }
-
-    private void clearLayoutErrors(TextInputLayout... textInputLayouts) {
-        for (TextInputLayout textInputLayout : textInputLayouts) {
-            textInputLayout.setErrorEnabled(false);
-        }
+        return map;
     }
 }

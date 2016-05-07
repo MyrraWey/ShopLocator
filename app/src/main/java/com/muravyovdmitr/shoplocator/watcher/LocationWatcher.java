@@ -4,19 +4,24 @@ import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by MyrraWey on 03.05.2016.
  */
-public class SingleTextWatcher extends ValidateWatcher {
-
-    public SingleTextWatcher(TextInputLayout layout, String errorText) {
+public class LocationWatcher extends ValidateWatcher {
+    public LocationWatcher(TextInputLayout layout, String errorText) {
         super(layout, errorText);
     }
 
     public boolean isValid(String text) {
         boolean valid = true;
 
-        if (text.trim().length() == 0) {
+        Pattern pattern = Pattern.compile("^\\d+(\\.\\d+)?,\\s\\d+(\\.\\d+)?$");
+        Matcher match = pattern.matcher(text);
+
+        if (!match.matches()) {
             valid = false;
         }
 
