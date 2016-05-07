@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.strategy.ISingleFragmentStrategy;
 
 /**
  * Created by MyrraWey on 02.05.2016.
@@ -19,6 +20,8 @@ import com.muravyovdmitr.shoplocator.R;
 public abstract class SingleFragmentActivity extends AppCompatActivity {
     protected NavigationView mNavigationView;
     protected DrawerLayout mDrawer;
+
+    protected ISingleFragmentStrategy mLoadingStrategy;
 
     protected NavigationView.OnNavigationItemSelectedListener mOnNavBarItemSelected = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -57,17 +60,19 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_fragment);
 
+        this.mLoadingStrategy = getLoadingStrategy();
+
         this.mDrawer = (DrawerLayout) findViewById(R.id.single_fragment_drawer);
         this.mNavigationView = (NavigationView) findViewById(R.id.single_fragment_nav_view);
 
         this.mNavigationView.setNavigationItemSelectedListener(this.mOnNavBarItemSelected);
-        this.mNavigationView.setCheckedItem(getDefaultNavBarItem());
+        this.mNavigationView.setCheckedItem(this.mLoadingStrategy.getSelectedByDefaultNavBarItem());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.single_fragment_fragment_container);
 
         if (fragment == null) {
-            fragment = getFragment();
+            fragment = this.mLoadingStrategy.getFragment();
 
             fragmentManager
                     .beginTransaction()
@@ -85,7 +90,5 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         }
     }
 
-    protected abstract Fragment getFragment();
-
-    protected abstract int getDefaultNavBarItem();
+    protected abstract ISingleFragmentStrategy getLoadingStrategy();
 }
