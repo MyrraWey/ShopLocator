@@ -7,5 +7,6 @@ import android.support.v4.app.Fragment;
  */
 public interface IBaseListFragment<LA> {
     LA getItemsListAdapter();
+
     Fragment getCreateItemFragment();
 }

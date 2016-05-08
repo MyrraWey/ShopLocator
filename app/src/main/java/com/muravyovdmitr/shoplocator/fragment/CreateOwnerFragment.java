@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
+import com.muravyovdmitr.shoplocator.fragment.strategy.CreateOwnerStrategy;
+import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
@@ -96,11 +98,6 @@ public class CreateOwnerFragment extends BaseFragment {
     }
 
     @Override
-    protected int getViewResource() {
-        return R.layout.fragment_create_owner;
-    }
-
-    @Override
     protected void findView(View view) {
         this.mOwnerImage = (ImageView) view.findViewById(R.id.fragment_create_owner_image);
         this.mImageUrl = (EditText) view.findViewById(R.id.fragment_create_owner_image_url);
@@ -112,6 +109,8 @@ public class CreateOwnerFragment extends BaseFragment {
 
     @Override
     protected void setupData() {
+        super.setupData();
+
         this.mImageUrl.setText(this.mOwner.getImageUrl());
         this.mImageUrl.setEnabled(this.mLoaded);
 
@@ -121,11 +120,6 @@ public class CreateOwnerFragment extends BaseFragment {
 
         this.mSaveOwner.setOnClickListener(this.mClickListener);
         this.mSaveOwner.setText(this.mLoaded ? getResources().getString(R.string.fragment_create_owner_changes) : getResources().getString(R.string.fragment_create_owner_save));
-    }
-
-    @Override
-    protected int getMenuResource() {
-        return R.menu.fragment_create_owner_menu;
     }
 
     @Override
@@ -141,5 +135,10 @@ public class CreateOwnerFragment extends BaseFragment {
         );
 
         return map;
+    }
+
+    @Override
+    protected IBaseFragmentStrategy getLoadingStrategy() {
+        return new CreateOwnerStrategy();
     }
 }

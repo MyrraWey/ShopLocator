@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
+import com.muravyovdmitr.shoplocator.fragment.strategy.CreateShopStrategy;
+import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
@@ -103,11 +105,6 @@ public class CreateShopFragment extends BaseFragment {
     }
 
     @Override
-    protected int getViewResource() {
-        return R.layout.fragment_create_shop;
-    }
-
-    @Override
     protected void findView(View view) {
         this.mShopImage = (ImageView) view.findViewById(R.id.fragment_create_shop_image);
         this.mImageUrl = (EditText) view.findViewById(R.id.fragment_create_shop_image_url);
@@ -123,6 +120,8 @@ public class CreateShopFragment extends BaseFragment {
 
     @Override
     protected void setupData() {
+        super.setupData();
+
         this.mImageUrl.setText(this.mShop.getImageUrl());
         this.mImageUrl.setEnabled(this.mLoaded);
 
@@ -136,11 +135,6 @@ public class CreateShopFragment extends BaseFragment {
 
         this.mSaveShop.setOnClickListener(this.mClickListener);
         this.mSaveShop.setText(this.mLoaded ? getResources().getString(R.string.fragment_create_shop_changes) : getResources().getString(R.string.fragment_create_shop_save));
-    }
-
-    @Override
-    protected int getMenuResource() {
-        return R.menu.fragment_create_shop_menu;
     }
 
     @Override
@@ -164,5 +158,10 @@ public class CreateShopFragment extends BaseFragment {
         );
 
         return map;
+    }
+
+    @Override
+    protected IBaseFragmentStrategy getLoadingStrategy() {
+        return new CreateShopStrategy();
     }
 }

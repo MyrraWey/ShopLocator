@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
+import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
+import com.muravyovdmitr.shoplocator.fragment.strategy.MapStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.TextUtils;
 
@@ -38,8 +40,8 @@ public class MapFragment extends BaseFragment {
         public void onMapReady(GoogleMap googleMap) {
             mGoogleMap = googleMap;
 
-            if(mShops != null) {
-                for(Shop shop : mShops) {
+            if (mShops != null) {
+                for (Shop shop : mShops) {
                     LatLng marker = TextUtils.getLatLngFromFormattedString(shop.getCoord());
                     mGoogleMap.addMarker(new MarkerOptions().position(marker).title(shop.getTitle()));
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(marker));
@@ -50,8 +52,8 @@ public class MapFragment extends BaseFragment {
     };
 
     @Override
-    protected int getViewResource() {
-        return R.layout.fragment_map;
+    protected IBaseFragmentStrategy getLoadingStrategy() {
+        return new MapStrategy();
     }
 
     @Override
@@ -61,12 +63,14 @@ public class MapFragment extends BaseFragment {
 
     @Override
     protected void setupData() {
+        super.setupData();
+
         this.mShops = ShopFactory.getInstance(getContext()).getShops();
 
         initMap();
 
         this.mShopsPager.setAdapter(new CustomPagerAdapter(getContext(), this.mShops));
-        this.mShopsPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        this.mShopsPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -87,11 +91,6 @@ public class MapFragment extends BaseFragment {
         });
     }
 
-    @Override
-    protected int getMenuResource() {
-        return R.menu.fragment_map_menu;
-    }
-
     private void initMap() {
         SupportMapFragment supportMapFragment = new SupportMapFragment();
 
@@ -110,7 +109,7 @@ public class MapFragment extends BaseFragment {
         private Context mContext;
         private List<Shop> mShops;
 
-        public CustomPagerAdapter(Context context,List<Shop> shops) {
+        public CustomPagerAdapter(Context context, List<Shop> shops) {
             this.mContext = context;
             this.mShops = shops;
         }

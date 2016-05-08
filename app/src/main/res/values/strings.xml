@@ -1,10 +1,13 @@
 <resources>
-    <string name="app_name">ShopLocator</string>
+    <string name="app_name">Shop Locator</string>
 
     <string name="drawer_shops">Shops</string>
     <string name="drawer_owners">Owners</string>
     <string name="drawer_map">Map</string>
+    <string name="drawer_open">Open drawer</string>
+    <string name="drawer_close">Close drawer</string>
 
+    <string name="fragment_create_shop_toolbar_title">Create Shop</string>
     <string name="fragment_create_shop_save">Save</string>
     <string name="fragment_create_shop_changes">Save changes</string>
     <string name="fragment_create_shop_image_url">Image URL</string>
@@ -19,6 +22,7 @@
 
     <string name="menu_shops_list_create_shop">Add new</string>
 
+    <string name="fragment_create_owner_toolbar_title">Create Owner</string>
     <string name="fragment_create_owner_save">Save</string>
     <string name="fragment_create_owner_changes">Save changes</string>
     <string name="fragment_create_owner_image_url">Image URL</string>
@@ -34,4 +38,10 @@
     <string name="base_list_delete_dialog_title">Do you really want to delete this item?</string>
 
     <string name="menu_base_list_create_shop">Add new</string>
+
+    <string name="fragment_owners_list_toolbar_title">Owners</string>
+
+    <string name="fragment_shops_list_toolbar_title">Shops</string>
+
+    <string name="fragment_map_toolbar_title">Map</string>
 </resources>

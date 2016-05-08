@@ -7,5 +7,6 @@ import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
  */
 public interface IBaseListHolder<E> {
     void bind(E item);
+
     void setOnItemRemove(IOnItemRemove onItemRemove);
 }

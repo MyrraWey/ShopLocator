@@ -25,4 +25,7 @@
 
     <dimen name="fragment_map_pager_margin">16dp</dimen>
     <dimen name="fragment_map_pager_height">100dp</dimen>
+
+    <dimen name="navigation_header_padding">16dp</dimen>
+    <dimen name="navigation_header_image_size">70dp</dimen>
 </resources>

@@ -10,8 +10,8 @@ public class TextUtils {
         String[] coords = location.split(", ");
 
         double latitude = Double.valueOf(coords[0]);
-        double longitude= Double.valueOf(coords[1]);
+        double longitude = Double.valueOf(coords[1]);
 
-       return new LatLng(latitude, longitude);
+        return new LatLng(latitude, longitude);
     }
 }

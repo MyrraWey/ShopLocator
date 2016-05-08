@@ -1,11 +1,11 @@
 package com.muravyovdmitr.shoplocator.activity;
 
-import com.muravyovdmitr.shoplocator.strategy.ISingleFragmentStrategy;
-import com.muravyovdmitr.shoplocator.strategy.ShopsListStrategy;
+import com.muravyovdmitr.shoplocator.activity.strategy.ISingleFragmentActivityStrategy;
+import com.muravyovdmitr.shoplocator.activity.strategy.ShopsListActivityStrategy;
 
 public class ShopsListActivity extends SingleFragmentActivity {
     @Override
-    protected ISingleFragmentStrategy getLoadingStrategy() {
-        return new ShopsListStrategy();
+    protected ISingleFragmentActivityStrategy getLoadingStrategy() {
+        return new ShopsListActivityStrategy();
     }
 }

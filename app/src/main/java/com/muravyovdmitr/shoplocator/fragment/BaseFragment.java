@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 
 import java.util.HashMap;
@@ -20,13 +23,17 @@ import java.util.Map;
  * Created by MyrraWey on 03.05.2016.
  */
 public abstract class BaseFragment extends Fragment {
+    protected ActionBar mToolbar;
     protected Map<TextInputLayout, ITextValidator> mValidationFields;
+
+    protected IBaseFragmentStrategy mLoadingStrategy;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getViewResource(), container, false);
-        setHasOptionsMenu(true);
+        this.mLoadingStrategy = getLoadingStrategy();
+
+        View view = inflater.inflate(this.mLoadingStrategy.getViewResource(), container, false);
 
         findView(view);
 
@@ -39,14 +46,15 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(getMenuResource(), menu);
+        inflater.inflate(this.mLoadingStrategy.getMenuResource(), menu);
     }
 
     protected void prepareValidation() {
         this.mValidationFields = getValidationMap();
 
-        for(Map.Entry<TextInputLayout, ITextValidator> entry : this.mValidationFields.entrySet()) {
+        for (Map.Entry<TextInputLayout, ITextValidator> entry : this.mValidationFields.entrySet()) {
             entry.getKey().getEditText().addTextChangedListener((TextWatcher) entry.getValue());
         }
     }
@@ -76,11 +84,13 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    protected abstract int getViewResource();
+    protected abstract IBaseFragmentStrategy getLoadingStrategy();
 
     protected abstract void findView(View view);
 
-    protected abstract void setupData();
-
-    protected abstract int getMenuResource();
+    protected void setupData() {
+        setHasOptionsMenu(true);
+        this.mToolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        this.mToolbar.setTitle(this.mLoadingStrategy.getToolbarTitleResource());
+    }
 }

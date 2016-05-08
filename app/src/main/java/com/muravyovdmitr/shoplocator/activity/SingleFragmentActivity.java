@@ -8,11 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.muravyovdmitr.shoplocator.R;
-import com.muravyovdmitr.shoplocator.strategy.ISingleFragmentStrategy;
+import com.muravyovdmitr.shoplocator.activity.strategy.ISingleFragmentActivityStrategy;
 
 /**
  * Created by MyrraWey on 02.05.2016.
@@ -21,12 +23,11 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     protected NavigationView mNavigationView;
     protected DrawerLayout mDrawer;
 
-    protected ISingleFragmentStrategy mLoadingStrategy;
+    protected ISingleFragmentActivityStrategy mLoadingStrategy;
 
     protected NavigationView.OnNavigationItemSelectedListener mOnNavBarItemSelected = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
-            boolean result = true;
             Intent intent;
 
             switch (item.getItemId()) {
@@ -47,11 +48,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     break;
             }
 
-            if (result) {
-                mDrawer.closeDrawer(GravityCompat.START);
-            }
+            mDrawer.closeDrawer(GravityCompat.START);
 
-            return result;
+            return true;
         }
     };
 
@@ -62,9 +61,20 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
         this.mLoadingStrategy = getLoadingStrategy();
 
-        this.mDrawer = (DrawerLayout) findViewById(R.id.single_fragment_drawer);
-        this.mNavigationView = (NavigationView) findViewById(R.id.single_fragment_nav_view);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.single_fragment_toolbar);
+        setSupportActionBar(toolbar);
 
+        this.mDrawer = (DrawerLayout) findViewById(R.id.single_fragment_drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,
+                this.mDrawer,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close
+        );
+        toggle.syncState();
+
+        this.mNavigationView = (NavigationView) findViewById(R.id.single_fragment_navigation);
         this.mNavigationView.setNavigationItemSelectedListener(this.mOnNavBarItemSelected);
         this.mNavigationView.setCheckedItem(this.mLoadingStrategy.getSelectedByDefaultNavBarItem());
 
@@ -90,5 +100,5 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         }
     }
 
-    protected abstract ISingleFragmentStrategy getLoadingStrategy();
+    protected abstract ISingleFragmentActivityStrategy getLoadingStrategy();
 }

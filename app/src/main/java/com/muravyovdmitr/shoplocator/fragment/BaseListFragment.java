@@ -32,11 +32,6 @@ public abstract class BaseListFragment<LA extends RecyclerView.Adapter> extends 
     };
 
     @Override
-    protected int getViewResource() {
-        return R.layout.fragment_base_list;
-    }
-
-    @Override
     protected void findView(View view) {
         this.mEmptyBlock = (LinearLayout) view.findViewById(R.id.base_list_empty_block);
         this.mCreateItemButton = (Button) view.findViewById(R.id.base_list_empty_create_item);
@@ -45,6 +40,8 @@ public abstract class BaseListFragment<LA extends RecyclerView.Adapter> extends 
 
     @Override
     protected void setupData() {
+        super.setupData();
+
         this.mCreateItemButton.setOnClickListener(mCreateItemButtonClick);
 
         this.mItemsListAdapter = getItemsListAdapter();
@@ -54,11 +51,6 @@ public abstract class BaseListFragment<LA extends RecyclerView.Adapter> extends 
         this.mRecyclerView.setAdapter(this.mItemsListAdapter);
 
         setListVisibility(this.mItemsListAdapter.getItemCount() != 0);
-    }
-
-    @Override
-    protected int getMenuResource() {
-        return R.menu.fragment_base_list_menu;
     }
 
     @Override
