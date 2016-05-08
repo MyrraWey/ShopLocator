@@ -20,7 +20,7 @@ import com.muravyovdmitr.shoplocator.util.ImageLoader;
 /**
  * Created by MyrraWey on 02.05.2016.
  */
-public class OwnersListHolder extends RecyclerView.ViewHolder {
+public class OwnersListHolder extends BaseListHolder<Owner> {
     private Owner mOwner;
     private Context mContext;
     private IOnItemRemove mOnOwnerRemove;
@@ -85,6 +85,7 @@ public class OwnersListHolder extends RecyclerView.ViewHolder {
         this.mOwnerShops = (TextView) itemView.findViewById(R.id.owners_list_item_owner_shops);
     }
 
+    @Override
     public void bind(Owner owner) {
         this.mOwner = owner;
 
@@ -94,7 +95,8 @@ public class OwnersListHolder extends RecyclerView.ViewHolder {
         ImageLoader.loadBitmapByUrl(this.mContext, owner.getImageUrl(), this.mOwnerImage);
     }
 
-    public void setOnOwnerRemove(IOnItemRemove ownerRemove) {
+    @Override
+    public void setOnItemRemove(IOnItemRemove ownerRemove) {
         this.mOnOwnerRemove = ownerRemove;
     }
 }

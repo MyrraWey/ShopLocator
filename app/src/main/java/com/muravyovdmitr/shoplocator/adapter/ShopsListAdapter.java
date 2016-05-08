@@ -1,6 +1,5 @@
 package com.muravyovdmitr.shoplocator.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,10 @@ import java.util.List;
 /**
  * Created by MyrraWey on 02.05.2016.
  */
-public class ShopsListAdapter extends RecyclerView.Adapter<ShopsListHolder> {
-    private List<Shop> mShops;
+public class ShopsListAdapter extends BaseListAdapter<Shop, ShopsListHolder> {
 
-    private IOnItemRemove mOnShopRemove = new IOnItemRemove() {
-        @Override
-        public void removeItem(int position) {
-            mShops.remove(position);
-            notifyItemRemoved(position);
-        }
-    };
-
-    public ShopsListAdapter(List<Shop> shops) {
-        this.mShops = shops;
+    public ShopsListAdapter(List<Shop> items) {
+        super(items);
     }
 
     @Override
@@ -35,18 +25,5 @@ public class ShopsListAdapter extends RecyclerView.Adapter<ShopsListHolder> {
         View view = inflater.inflate(R.layout.holder_shops_list_item, parent, false);
 
         return new ShopsListHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ShopsListHolder holder, int position) {
-        Shop shop = this.mShops.get(position);
-
-        holder.setOnShopRemove(this.mOnShopRemove);
-        holder.bind(shop);
-    }
-
-    @Override
-    public int getItemCount() {
-        return this.mShops.size();
     }
 }
