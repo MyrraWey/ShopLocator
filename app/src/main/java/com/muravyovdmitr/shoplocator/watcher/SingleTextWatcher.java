@@ -1,8 +1,6 @@
 package com.muravyovdmitr.shoplocator.watcher;
 
 import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
 
 /**
  * Created by MyrraWey on 03.05.2016.

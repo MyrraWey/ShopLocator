@@ -11,9 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
-import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
 import java.util.HashMap;
 import java.util.Map;

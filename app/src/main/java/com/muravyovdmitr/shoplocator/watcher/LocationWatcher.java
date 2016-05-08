@@ -1,8 +1,6 @@
 package com.muravyovdmitr.shoplocator.watcher;
 
 import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

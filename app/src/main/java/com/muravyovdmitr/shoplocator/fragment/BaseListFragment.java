@@ -9,9 +9,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.muravyovdmitr.shoplocator.R;
-import com.muravyovdmitr.shoplocator.adapter.BaseListAdapter;
-import com.muravyovdmitr.shoplocator.adapter.OwnersListAdapter;
-import com.muravyovdmitr.shoplocator.data.ShopFactory;
 import com.muravyovdmitr.shoplocator.decoration.ItemsListItemDecorator;
 
 /**
