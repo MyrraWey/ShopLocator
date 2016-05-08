@@ -9,13 +9,13 @@
     android:layout_marginTop="@dimen/activity_vertical_margin">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/owners_list_recycler_view"
+        android:id="@+id/base_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
 
     <LinearLayout
-        android:id="@+id/owners_list_empty_block"
+        android:id="@+id/base_list_empty_block"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -23,17 +23,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/owners_list_empty_text"
+            android:id="@+id/base_list_empty_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/owners_list_empty_text"/>
+            android:text="@string/base_list_empty_text"/>
 
         <Button
-            android:id="@+id/owners_list_empty_create_owner"
+            android:id="@+id/base_list_empty_create_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/owners_list_create_new_shop"/>
+            android:text="@string/base_list_create_new_shop"/>
 
     </LinearLayout>
 

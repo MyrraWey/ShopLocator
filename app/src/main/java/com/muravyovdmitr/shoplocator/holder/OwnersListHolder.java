@@ -48,7 +48,7 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
         @Override
         public boolean onLongClick(View v) {
             new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.owners_list_delete_dialog_title)
+                    .setTitle(R.string.base_list_delete_dialog_title)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

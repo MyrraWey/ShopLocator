@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_shops_list_create_shop"
+        android:id="@+id/menu_base_list_create_item"
         android:icon="@drawable/ic_add_new"
-        android:title="@string/menu_shops_list_create_shop"
+        android:title="@string/menu_base_list_create_shop"
         app:showAsAction="ifRoom|withText"/>
 
 </menu>
