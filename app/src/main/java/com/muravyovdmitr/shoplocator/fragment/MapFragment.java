@@ -1,14 +1,8 @@
 package com.muravyovdmitr.shoplocator.fragment;
 
-import android.content.Context;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,11 +11,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.adapter.ShopsMapAdapter;
 import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.data.ShopFactory;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.MapStrategy;
-import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.TextUtils;
 
 import java.util.List;
@@ -69,7 +63,7 @@ public class MapFragment extends BaseFragment {
 
         initMap();
 
-        this.mShopsPager.setAdapter(new CustomPagerAdapter(getContext(), this.mShops));
+        this.mShopsPager.setAdapter(new ShopsMapAdapter(getContext(), this.mShops));
         this.mShopsPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -101,52 +95,5 @@ public class MapFragment extends BaseFragment {
                 .commit();
 
         supportMapFragment.getMapAsync(mMapReadyCallback);
-    }
-
-    // +++++++++++++++++++++++++++
-
-    public class CustomPagerAdapter extends PagerAdapter {
-        private Context mContext;
-        private List<Shop> mShops;
-
-        public CustomPagerAdapter(Context context, List<Shop> shops) {
-            this.mContext = context;
-            this.mShops = shops;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup collection, int position) {
-            Shop shop = this.mShops.get(position);
-
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.holder_shops_list_item, collection, false);
-
-            ((TextView) layout.findViewById(R.id.shops_list_item_title)).setText(shop.getTitle());
-            ((TextView) layout.findViewById(R.id.shops_list_item_coord)).setText(shop.getCoord());
-            ((TextView) layout.findViewById(R.id.shops_list_item_owner)).setText(shop.getOwner());
-            ImageLoader.loadBitmapByUrl(
-                    this.mContext,
-                    shop.getImageUrl(),
-                    ((ImageView) layout.findViewById(R.id.shops_list_item_image)));
-
-            collection.addView(layout);
-            return layout;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup collection, int position, Object view) {
-            collection.removeView((View) view);
-        }
-
-        @Override
-        public int getCount() {
-            return mShops.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
     }
 }
