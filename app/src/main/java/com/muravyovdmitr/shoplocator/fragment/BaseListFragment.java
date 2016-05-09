@@ -64,7 +64,7 @@ public abstract class BaseListFragment<LA extends RecyclerView.Adapter> extends 
         }
     }
 
-    private void setListVisibility(boolean isVisible) {
+    public void setListVisibility(boolean isVisible) {
         this.mEmptyBlock.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
         this.mRecyclerView.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
     }

@@ -36,4 +36,8 @@ public abstract class BaseListAdapter<E, VH extends BaseListHolder> extends Recy
     public int getItemCount() {
         return this.mItems.size();
     }
+
+    public void setOnItemRemove(IOnItemRemove onItemRemove) {
+        this.mOnItemRemove = onItemRemove;
+    }
 }
