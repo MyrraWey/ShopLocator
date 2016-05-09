@@ -10,8 +10,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
-import com.muravyovdmitr.shoplocator.data.ShopFactory;
+import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.CreateOwnerStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
@@ -32,6 +33,7 @@ public class CreateOwnerFragment extends BaseFragment {
 
     private Owner mOwner;
     private boolean mLoaded;
+    private IDataOperations mDataOperations;
 
     private ImageView mOwnerImage;
     private EditText mImageUrl;
@@ -59,9 +61,9 @@ public class CreateOwnerFragment extends BaseFragment {
             mOwner.setName(mOwnerName.getText().toString());
 
             if (mLoaded) {
-                ShopFactory.getInstance(getContext()).updateOwner(mOwner);
+                mDataOperations.updateItem(mOwner);
             } else {
-                ShopFactory.getInstance(getContext()).addOwner(mOwner);
+                mDataOperations.addItem(mOwner);
             }
 
             getActivity().getSupportFragmentManager().popBackStack();
@@ -82,12 +84,14 @@ public class CreateOwnerFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.mDataOperations = new OwnersDatabaseWrapper(getContext());
+
         Bundle args = this.getArguments();
         UUID id = (args != null) ? (UUID) args.getSerializable(LOADED_OWNER_ID) : null;
         if (id != null) {
             this.mLoaded = true;
 
-            this.mOwner = ShopFactory.getInstance(getContext()).getOwner(id);
+            this.mOwner = (Owner) this.mDataOperations.getItem(id);
         } else {
             this.mLoaded = false;
 

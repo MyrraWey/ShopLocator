@@ -10,8 +10,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.data.ShopFactory;
+import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.CreateShopStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
@@ -33,6 +34,7 @@ public class CreateShopFragment extends BaseFragment {
 
     private Shop mShop;
     private boolean mLoaded;
+    private IDataOperations mDataOperations;
 
     private ImageView mShopImage;
     private EditText mImageUrl;
@@ -66,9 +68,9 @@ public class CreateShopFragment extends BaseFragment {
             mShop.setCoord(mShopCoord.getText().toString());
 
             if (mLoaded) {
-                ShopFactory.getInstance(getContext()).updateShop(mShop);
+                mDataOperations.updateItem(mShop);
             } else {
-                ShopFactory.getInstance(getContext()).addShop(mShop);
+                mDataOperations.addItem(mShop);
             }
 
             getActivity().getSupportFragmentManager().popBackStack();
@@ -89,12 +91,14 @@ public class CreateShopFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.mDataOperations = new ShopsDatabaseWrapper(getContext());
+
         Bundle args = this.getArguments();
         UUID id = (args != null) ? (UUID) args.getSerializable(LOADED_SHOP_ID) : null;
         if (id != null) {
             this.mLoaded = true;
 
-            this.mShop = ShopFactory.getInstance(getContext()).getShop(id);
+            this.mShop = (Shop) this.mDataOperations.getItem(id);
         } else {
             this.mLoaded = false;
 

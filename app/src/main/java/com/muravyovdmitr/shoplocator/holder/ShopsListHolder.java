@@ -11,8 +11,9 @@ import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
+import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.data.ShopFactory;
+import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.CreateShopFragment;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 
@@ -52,7 +53,8 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ShopFactory.getInstance(mContext).deleteShop(mShop);
+                            IDataOperations dataOperations = new ShopsDatabaseWrapper(mContext);
+                            dataOperations.deleteItem(mShop);
 
                             if (mOnShopRemove != null) {
                                 mOnShopRemove.removeItem(getAdapterPosition());

@@ -12,8 +12,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.ShopsMapAdapter;
+import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.data.ShopFactory;
+import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.MapStrategy;
 import com.muravyovdmitr.shoplocator.util.TextUtils;
@@ -59,7 +60,8 @@ public class MapFragment extends BaseFragment {
     protected void setupData() {
         super.setupData();
 
-        this.mShops = ShopFactory.getInstance(getContext()).getShops();
+        IDataOperations dataOperations = new ShopsDatabaseWrapper(getContext());
+        this.mShops = dataOperations.getItems();
 
         initMap();
 

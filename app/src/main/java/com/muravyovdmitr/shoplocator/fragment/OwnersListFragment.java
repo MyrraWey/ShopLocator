@@ -3,7 +3,8 @@ package com.muravyovdmitr.shoplocator.fragment;
 import android.support.v4.app.Fragment;
 
 import com.muravyovdmitr.shoplocator.adapter.OwnersListAdapter;
-import com.muravyovdmitr.shoplocator.data.ShopFactory;
+import com.muravyovdmitr.shoplocator.data.IDataOperations;
+import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.OwnersListStrategy;
 
@@ -14,7 +15,9 @@ public class OwnersListFragment extends BaseListFragment<OwnersListAdapter> {
 
     @Override
     public OwnersListAdapter getItemsListAdapter() {
-        return new OwnersListAdapter(ShopFactory.getInstance(getContext()).getOwners());
+        IDataOperations dataOperations = new OwnersDatabaseWrapper(getContext());
+
+        return new OwnersListAdapter(dataOperations.getItems());
     }
 
     @Override
