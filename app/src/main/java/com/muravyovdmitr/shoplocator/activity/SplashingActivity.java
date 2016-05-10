@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.util.SettingsManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +23,7 @@ public class SplashingActivity extends AppCompatActivity {
 
     private int mTaskTime;
     private SplashingTask mSplashingTask;
+    private SettingsManager mSettingsManager;
 
     private class SplashingTask extends AsyncTask<Void, Integer, Void> {
         protected int mDelayTime;
@@ -49,7 +51,13 @@ public class SplashingActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            mTimeLeft.setText(values[0].toString() + " left");
+            mTimeLeft.setText(
+                    getApplicationContext().getResources().getQuantityString(
+                            R.plurals.activity_splashing_time_left,
+                            values[0],
+                            values[0]
+                    )
+            );
         }
 
         @Override
@@ -63,10 +71,13 @@ public class SplashingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashing);
 
-        //TODO Load task time from SharedPreferences
-        //TODO save time change on activity minimization
-        //TODO add settings screen
-        this.mTaskTime = 3;
+        this.mSettingsManager = new SettingsManager(this);
+
+        if (!this.mSettingsManager.isSplashingScreenEnable()) {
+            startMainActivity();
+        }
+
+        this.mTaskTime = this.mSettingsManager.getSplashingScreenDuration();
 
         this.mSkip = (Button) findViewById(R.id.activity_splashing_skip_button);
         this.mTimeLeft = (TextView) findViewById(R.id.activity_splashing_time_left);

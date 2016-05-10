@@ -44,4 +44,10 @@
     <string name="fragment_shops_list_toolbar_title">Shops</string>
 
     <string name="fragment_map_toolbar_title">Map</string>
+
+    <string name="activity_splashing_skip_button">Skip</string>
+    <plurals name="activity_splashing_time_left">
+        <item quantity="one">%1$d second left</item>
+        <item quantity="other">%1$d seconds left</item>
+    </plurals>
 </resources>
