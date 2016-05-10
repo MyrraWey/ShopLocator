@@ -23,7 +23,9 @@ public class SettingsManager {
     }
 
     public void setSplashingScreenDuration(int duration) {
-        this.mEditor.putInt(SPLASHING_SCREEN_DURATION, duration);
+        this.mEditor
+                .putInt(SPLASHING_SCREEN_DURATION, duration)
+                .commit();
     }
 
     public boolean isSplashingScreenEnable() {
@@ -31,6 +33,8 @@ public class SettingsManager {
     }
 
     public void setSplashingScreenEnable(boolean enable) {
-        this.mEditor.putBoolean(SPLASHING_SCREEN_DURATION, enable);
+        this.mEditor
+                .putBoolean(SPLASHING_SCREEN_ENABLE, enable)
+                .commit();
     }
 }

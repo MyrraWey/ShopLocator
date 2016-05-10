@@ -32,6 +32,7 @@
         <activity android:name=".activity.ShopsListActivity"/>
         <activity android:name=".activity.OwnersListActivity"/>
         <activity android:name=".activity.MapActivity"/>
+        <activity android:name=".activity.SettingsActivity"/>
     </application>
 
 </manifest>

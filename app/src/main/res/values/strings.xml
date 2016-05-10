@@ -4,6 +4,8 @@
     <string name="drawer_shops">Shops</string>
     <string name="drawer_owners">Owners</string>
     <string name="drawer_map">Map</string>
+    <string name="drawer_tools">Tools</string>
+    <string name="drawer_settings">Settings</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
 
@@ -50,4 +52,8 @@
         <item quantity="one">%1$d second left</item>
         <item quantity="other">%1$d seconds left</item>
     </plurals>
+
+    <string name="activity_settings_splashing_delay">Splashing screen delay</string>
+    <string name="activity_settings_splashing_enable">Enable splashing screen</string>
+    <string name="activity_settings_splashing">Splashing screen</string>
 </resources>

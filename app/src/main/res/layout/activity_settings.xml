@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_settings_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryDark"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <TextView
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="@dimen/activity_settings_margin_4u"
+        android:layout_marginRight="@dimen/activity_settings_margin_4u"
+        android:layout_marginTop="@dimen/activity_settings_margin_4u"
+        android:text="@string/activity_settings_splashing_enable"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_settings_margin_1u"
+        android:layout_marginEnd="@dimen/activity_settings_margin_4u"
+        android:layout_marginLeft="@dimen/activity_settings_margin_8u"
+        android:layout_marginRight="@dimen/activity_settings_margin_4u"
+        android:layout_marginStart="@dimen/activity_settings_margin_8u"
+        android:layout_marginTop="@dimen/activity_settings_margin_2u"
+        android:orientation="horizontal">
+
+        <TextView
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:text="@string/activity_settings_splashing_enable"/>
+
+        <Switch
+            android:id="@+id/activity_settings_splash_enable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:orientation="horizontal"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_settings_margin_1u"
+        android:layout_marginEnd="@dimen/activity_settings_margin_4u"
+        android:layout_marginLeft="@dimen/activity_settings_margin_8u"
+        android:layout_marginRight="@dimen/activity_settings_margin_4u"
+        android:layout_marginStart="@dimen/activity_settings_margin_8u"
+        android:layout_marginTop="@dimen/activity_settings_margin_2u"
+        android:orientation="horizontal">
+
+        <TextView
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:text="@string/activity_settings_splashing_delay"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/activity_settings_increase_delay"
+                android:layout_width="@dimen/activity_settings_image_button_width"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:src="@drawable/ic_decrease_icon"/>
+
+            <EditText
+                android:id="@+id/activity_settings_delay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:enabled="false"/>
+
+            <ImageButton
+                android:id="@+id/activity_settings_decrease_delay"
+                android:layout_width="@dimen/activity_settings_image_button_width"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:src="@drawable/ic_increase_icon"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

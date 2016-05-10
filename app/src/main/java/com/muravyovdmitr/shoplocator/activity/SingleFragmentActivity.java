@@ -46,6 +46,11 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     break;
+                case R.id.drawer_settings:
+                    intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                    intent.setFlags(intent.getFlags());
+                    startActivity(intent);
+                    break;
             }
 
             mDrawer.closeDrawer(GravityCompat.START);

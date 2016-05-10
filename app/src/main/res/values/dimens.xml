@@ -31,4 +31,10 @@
 
     <dimen name="activity_splashing_image_size">300dp</dimen>
     <dimen name="activity_splashing_time_left_margin">16dp</dimen>
+
+    <dimen name="activity_settings_margin_1u">4dp</dimen>
+    <dimen name="activity_settings_margin_2u">8dp</dimen>
+    <dimen name="activity_settings_margin_4u">16dp</dimen>
+    <dimen name="activity_settings_margin_8u">32dp</dimen>
+    <dimen name="activity_settings_image_button_width">20dp</dimen>
 </resources>

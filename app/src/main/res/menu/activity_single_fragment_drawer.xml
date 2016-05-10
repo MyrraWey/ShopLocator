@@ -20,4 +20,17 @@
 
     </group>
 
+    <item android:title="@string/drawer_tools">
+
+        <menu>
+
+            <item
+                android:id="@+id/drawer_settings"
+                android:icon="@drawable/ic_app_settings"
+                android:title="@string/drawer_settings"/>
+
+        </menu>
+
+    </item>
+
 </menu>
