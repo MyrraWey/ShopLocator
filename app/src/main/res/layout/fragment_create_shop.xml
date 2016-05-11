@@ -84,7 +84,7 @@
         android:layout_marginLeft="@dimen/fragment_create_shop_margin_horizontal"
         android:layout_marginRight="@dimen/fragment_create_shop_margin_horizontal">
 
-        <EditText
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
             android:id="@+id/fragment_create_shop_owner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

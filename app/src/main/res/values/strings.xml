@@ -19,10 +19,14 @@
     <string name="fragment_create_shop_image_url_error">Image URL must be filled!</string>
     <string name="fragment_create_shop_title_error">Shop Title must be filled!</string>
     <string name="fragment_create_shop_coord_error">Shop Coordinates must be filled and match format!</string>
-    <string name="fragment_create_shop_owner_error">Shop Owner must be filled!</string>
+    <string name="fragment_create_shop_owner_error">Shop Owner must be filled and exist!</string>
     <string name="fragment_create_shop_error_message">All fields must be filled!</string>
 
     <string name="menu_shops_list_create_shop">Add new</string>
+
+    <string name="shops_list_dialog_ok_button">Create Owner</string>
+    <string name="shops_list_dialog_title">Warning!</string>
+    <string name="shops_list_dialog_message">You can\'t create shops if you don\'t have owners.</string>
 
     <string name="fragment_create_owner_toolbar_title">Create Owner</string>
     <string name="fragment_create_owner_save">Save</string>

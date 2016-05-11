@@ -30,7 +30,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.mLoadingStrategy = getLoadingStrategy();
 
         View view = inflater.inflate(this.mLoadingStrategy.getViewResource(), container, false);

@@ -3,7 +3,9 @@ package com.muravyovdmitr.shoplocator.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,17 +13,22 @@ import android.widget.Toast;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
+import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
+import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.CreateShopStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
+import com.muravyovdmitr.shoplocator.watcher.AutocompleteOwnersValidator;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 import com.muravyovdmitr.shoplocator.watcher.LocationWatcher;
 import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -40,7 +47,7 @@ public class CreateShopFragment extends BaseFragment {
     private EditText mImageUrl;
     private EditText mShopTitle;
     private EditText mShopCoord;
-    private EditText mShopOwner;
+    private AppCompatAutoCompleteTextView mShopOwner;
     private TextInputLayout mImageUrlLayout;
     private TextInputLayout mShopTitleLayout;
     private TextInputLayout mShopCoordLayout;
@@ -114,7 +121,7 @@ public class CreateShopFragment extends BaseFragment {
         this.mImageUrl = (EditText) view.findViewById(R.id.fragment_create_shop_image_url);
         this.mShopTitle = (EditText) view.findViewById(R.id.fragment_create_shop_title);
         this.mShopCoord = (EditText) view.findViewById(R.id.fragment_create_shop_coord);
-        this.mShopOwner = (EditText) view.findViewById(R.id.fragment_create_shop_owner);
+        this.mShopOwner = (AppCompatAutoCompleteTextView) view.findViewById(R.id.fragment_create_shop_owner);
         this.mImageUrlLayout = (TextInputLayout) view.findViewById(R.id.fragment_create_shop_image_url_layout);
         this.mShopTitleLayout = (TextInputLayout) view.findViewById(R.id.fragment_create_shop_title_layout);
         this.mShopCoordLayout = (TextInputLayout) view.findViewById(R.id.fragment_create_shop_coord_layout);
@@ -132,6 +139,7 @@ public class CreateShopFragment extends BaseFragment {
         this.mShopTitle.setText(this.mShop.getTitle());
 
         this.mShopOwner.setText(this.mShop.getOwner());
+        this.mShopOwner.setAdapter(getAutocompleteOwnersAdapter());
 
         this.mShopCoord.setText(this.mShop.getCoord());
 
@@ -154,7 +162,7 @@ public class CreateShopFragment extends BaseFragment {
         );
         map.put(
                 mShopOwnerLayout,
-                new SingleTextWatcher(this.mShopOwnerLayout, getActivity().getResources().getString(R.string.fragment_create_shop_owner_error))
+                new AutocompleteOwnersValidator(this.mShopOwnerLayout, getActivity().getResources().getString(R.string.fragment_create_shop_owner_error))
         );
         map.put(
                 mShopCoordLayout,
@@ -167,5 +175,23 @@ public class CreateShopFragment extends BaseFragment {
     @Override
     protected IBaseFragmentStrategy getLoadingStrategy() {
         return new CreateShopStrategy();
+    }
+
+    protected ArrayAdapter<String> getAutocompleteOwnersAdapter() {
+        IDataOperations ownersSource = new OwnersDatabaseWrapper(getContext());
+        List<Owner> owners = ownersSource.getItems();
+
+        List<String> ownersNames = new ArrayList<>();
+        for (Owner owner : owners) {
+            ownersNames.add(owner.getName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                ownersNames
+        );
+
+        return adapter;
     }
 }
