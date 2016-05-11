@@ -52,20 +52,16 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
 
     @Override
     protected void createNewItem() {
-        if (mDataOperations.getItems().size() == 0) {
+        if (mDataOperations.getItems().isEmpty()) {
             getNoOwnersDialog().show();
         } else {
             super.createNewItem();
         }
     }
 
-    protected void createNewItemParent() {
-        super.createNewItem();
-    }
-
     @Override
     public Fragment getCreateItemFragment() {
-        return (this.mDataOperations.getItems().size() == 0) ?
+        return this.mDataOperations.getItems().isEmpty() ?
                 new CreateOwnerFragment() :
                 new CreateShopFragment();
     }
@@ -75,6 +71,7 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
         return new ShopsListStrategy();
     }
 
+    //TODO replace to final property
     protected AlertDialog.Builder getNoOwnersDialog() {
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.shops_list_dialog_title)
@@ -82,14 +79,9 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
                 .setPositiveButton(R.string.shops_list_dialog_ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        createNewItemParent();
+                        ShopsListFragment.super.createNewItem();
                     }
                 })
-                .setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //nothing to do here
-                    }
-                });
+                .setNeutralButton(android.R.string.cancel, null);
     }
 }

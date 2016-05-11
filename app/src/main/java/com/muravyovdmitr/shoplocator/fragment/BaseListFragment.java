@@ -55,12 +55,14 @@ public abstract class BaseListFragment<LA extends RecyclerView.Adapter> extends 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
         switch (item.getItemId()) {
             case R.id.menu_base_list_create_item:
                 createNewItem();
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return false;
         }
     }
 

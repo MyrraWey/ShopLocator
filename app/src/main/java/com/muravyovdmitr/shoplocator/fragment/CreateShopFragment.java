@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.adapter.OwnersAutocomplete;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
@@ -41,6 +42,7 @@ public class CreateShopFragment extends BaseFragment {
 
     private Shop mShop;
     private boolean mLoaded;
+    private OwnersAutocomplete mOwnersAutocompleteAdapter;
     private IDataOperations mDataOperations;
 
     private ImageView mShopImage;
@@ -139,6 +141,13 @@ public class CreateShopFragment extends BaseFragment {
         this.mShopTitle.setText(this.mShop.getTitle());
 
         this.mShopOwner.setText(this.mShop.getOwner());
+        this.mOwnersAutocompleteAdapter = new OwnersAutocomplete(
+                getContext(),
+                R.layout.view_owners_autocomplete,
+                getOwnersList()
+        );
+        //TODO custom autocompleteAdapter doesn't create view
+//        this.mShopOwner.setAdapter(this.mOwnersAutocompleteAdapter);
         this.mShopOwner.setAdapter(getAutocompleteOwnersAdapter());
 
         this.mShopCoord.setText(this.mShop.getCoord());
@@ -193,5 +202,11 @@ public class CreateShopFragment extends BaseFragment {
         );
 
         return adapter;
+    }
+
+    protected List<Owner> getOwnersList() {
+        IDataOperations ownersSource = new OwnersDatabaseWrapper(getContext());
+
+        return ownersSource.getItems();
     }
 }
