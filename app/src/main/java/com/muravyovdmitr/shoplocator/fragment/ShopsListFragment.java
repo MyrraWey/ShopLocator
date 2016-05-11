@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
     private IDataOperations mDataOperations;
-    protected boolean mDialogAlreadyOpen = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,12 +52,15 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
 
     @Override
     protected void createNewItem() {
-        if (!this.mDialogAlreadyOpen && mDataOperations.getItems().size() == 0) {
-            this.mDialogAlreadyOpen = true;
+        if (mDataOperations.getItems().size() == 0) {
             getNoOwnersDialog().show();
         } else {
             super.createNewItem();
         }
+    }
+
+    protected void createNewItemParent() {
+        super.createNewItem();
     }
 
     @Override
@@ -80,19 +82,13 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
                 .setPositiveButton(R.string.shops_list_dialog_ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        createNewItem();
+                        createNewItemParent();
                     }
                 })
                 .setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //nothing to odo here
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        mDialogAlreadyOpen = false;
+                        //nothing to do here
                     }
                 });
     }
