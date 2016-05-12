@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,7 +26,6 @@ import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 import com.muravyovdmitr.shoplocator.watcher.LocationWatcher;
 import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,9 +144,7 @@ public class CreateShopFragment extends BaseFragment {
                 R.layout.view_owners_autocomplete,
                 getOwnersList()
         );
-        //TODO custom autocompleteAdapter doesn't create view
-//        this.mShopOwner.setAdapter(this.mOwnersAutocompleteAdapter);
-        this.mShopOwner.setAdapter(getAutocompleteOwnersAdapter());
+        this.mShopOwner.setAdapter(this.mOwnersAutocompleteAdapter);
 
         this.mShopCoord.setText(this.mShop.getCoord());
 
@@ -184,24 +180,6 @@ public class CreateShopFragment extends BaseFragment {
     @Override
     protected IBaseFragmentStrategy getLoadingStrategy() {
         return new CreateShopStrategy();
-    }
-
-    protected ArrayAdapter<String> getAutocompleteOwnersAdapter() {
-        IDataOperations ownersSource = new OwnersDatabaseWrapper(getContext());
-        List<Owner> owners = ownersSource.getItems();
-
-        List<String> ownersNames = new ArrayList<>();
-        for (Owner owner : owners) {
-            ownersNames.add(owner.getName());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                getContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                ownersNames
-        );
-
-        return adapter;
     }
 
     protected List<Owner> getOwnersList() {

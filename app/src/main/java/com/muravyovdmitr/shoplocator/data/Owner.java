@@ -18,6 +18,11 @@ public class Owner {
         this.mId = id;
     }
 
+    @Override
+    public String toString() {
+        return mName;
+    }
+
     public UUID getId() {
         return mId;
     }

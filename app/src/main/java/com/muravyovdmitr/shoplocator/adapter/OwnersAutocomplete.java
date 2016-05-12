@@ -42,7 +42,7 @@ public class OwnersAutocomplete extends ArrayAdapter<Owner> {
         Owner owner = this.mItems.get(position);
 
         ImageView image = (ImageView) view.findViewById(R.id.owners_autocomplete_image);
-        TextView name = (TextView) view.findViewById(R.id.owners_list_item_name);
+        TextView name = (TextView) view.findViewById(R.id.owners_autocomplete_name);
 
         ImageLoader.loadBitmapByUrl(this.mContext, owner.getImageUrl(), image);
         name.setText(owner.getName());
