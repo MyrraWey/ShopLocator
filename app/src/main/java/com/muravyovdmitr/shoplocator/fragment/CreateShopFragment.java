@@ -163,6 +163,7 @@ public class CreateShopFragment extends BaseFragment {
                 getOwnersList()
         );
         this.mShopOwner.setAdapter(this.mOwnersAutocompleteAdapter);
+        this.mShopOwner.setOnItemClickListener(mAutocompleteItemClickListener);
 
         this.mShopCoord.setText(this.mShop.getCoord());
 
