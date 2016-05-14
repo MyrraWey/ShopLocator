@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.muravyovdmitr.shoplocator.fragment.strategy.CreateOwnerStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
+import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
@@ -31,10 +33,6 @@ import java.util.UUID;
 public class CreateOwnerFragment extends BaseFragment {
     private static final String LOADED_OWNER_ID = "loadedOwnerId";
 
-    private Owner mOwner;
-    private boolean mLoaded;
-    private IDataOperations mDataOperations;
-
     private ImageView mOwnerImage;
     private EditText mImageUrl;
     private EditText mOwnerName;
@@ -42,7 +40,14 @@ public class CreateOwnerFragment extends BaseFragment {
     private TextInputLayout mOwnerNameLayout;
     private Button mSaveOwner;
 
-    private View.OnClickListener mClickListener = new View.OnClickListener() {
+    private Owner mOwner;
+    private boolean mLoaded;
+
+    private final IDataOperations mOwnersData = new OwnersDatabaseWrapper(
+            ShopLocatorApplication.getInstance().getApplicationContext()
+    );
+
+    private OnClickListener mClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             clearLayoutErrors();
@@ -61,9 +66,9 @@ public class CreateOwnerFragment extends BaseFragment {
             mOwner.setName(mOwnerName.getText().toString());
 
             if (mLoaded) {
-                mDataOperations.updateItem(mOwner);
+                mOwnersData.updateItem(mOwner);
             } else {
-                mDataOperations.addItem(mOwner);
+                mOwnersData.addItem(mOwner);
             }
 
             getActivity().getSupportFragmentManager().popBackStack();
@@ -84,14 +89,12 @@ public class CreateOwnerFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.mDataOperations = new OwnersDatabaseWrapper(getContext());
-
         Bundle args = this.getArguments();
         UUID id = (args != null) ? (UUID) args.getSerializable(LOADED_OWNER_ID) : null;
         if (id != null) {
             this.mLoaded = true;
 
-            this.mOwner = (Owner) this.mDataOperations.getItem(id);
+            this.mOwner = (Owner) this.mOwnersData.getItem(id);
         } else {
             this.mLoaded = false;
 

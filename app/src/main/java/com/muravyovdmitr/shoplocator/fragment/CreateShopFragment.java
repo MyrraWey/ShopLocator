@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +23,7 @@ import com.muravyovdmitr.shoplocator.fragment.strategy.CreateShopStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
+import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 import com.muravyovdmitr.shoplocator.watcher.AutocompleteOwnersValidator;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 import com.muravyovdmitr.shoplocator.watcher.LocationWatcher;
@@ -38,11 +41,6 @@ import java.util.UUID;
 public class CreateShopFragment extends BaseFragment {
     private static final String LOADED_SHOP_ID = "loadedShopId";
 
-    private Shop mShop;
-    private boolean mLoaded;
-    private OwnersAutocomplete mOwnersAutocompleteAdapter;
-    private IDataOperations mDataOperations;
-
     private ImageView mShopImage;
     private EditText mImageUrl;
     private EditText mShopTitle;
@@ -54,7 +52,26 @@ public class CreateShopFragment extends BaseFragment {
     private TextInputLayout mShopOwnerLayout;
     private Button mSaveShop;
 
-    private View.OnClickListener mClickListener = new View.OnClickListener() {
+    private Shop mShop;
+    private int mAutocompleteItem;
+    private boolean mLoaded;
+    private OwnersAutocomplete mOwnersAutocompleteAdapter;
+
+    private final IDataOperations<Shop> mShopsData = new ShopsDatabaseWrapper(
+            ShopLocatorApplication.getInstance().getApplicationContext()
+    );
+    private final IDataOperations<Owner> mOwnersData = new OwnersDatabaseWrapper(
+            ShopLocatorApplication.getInstance().getApplicationContext()
+    );
+
+    private final AdapterView.OnItemClickListener mAutocompleteItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            mAutocompleteItem = position;
+        }
+    };
+
+    private final OnClickListener mClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             clearLayoutErrors();
@@ -70,14 +87,14 @@ public class CreateShopFragment extends BaseFragment {
                 return;
             }
 
-            mShop.setOwner(mShopOwner.getText().toString());
+            mShop.setOwner(mOwnersAutocompleteAdapter.getOwnerId(mAutocompleteItem));
             mShop.setTitle(mShopTitle.getText().toString());
             mShop.setCoord(mShopCoord.getText().toString());
 
             if (mLoaded) {
-                mDataOperations.updateItem(mShop);
+                mShopsData.updateItem(mShop);
             } else {
-                mDataOperations.addItem(mShop);
+                mShopsData.addItem(mShop);
             }
 
             getActivity().getSupportFragmentManager().popBackStack();
@@ -98,14 +115,12 @@ public class CreateShopFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.mDataOperations = new ShopsDatabaseWrapper(getContext());
-
         Bundle args = this.getArguments();
         UUID id = (args != null) ? (UUID) args.getSerializable(LOADED_SHOP_ID) : null;
         if (id != null) {
             this.mLoaded = true;
 
-            this.mShop = (Shop) this.mDataOperations.getItem(id);
+            this.mShop = this.mShopsData.getItem(id);
         } else {
             this.mLoaded = false;
 
@@ -138,7 +153,10 @@ public class CreateShopFragment extends BaseFragment {
 
         this.mShopTitle.setText(this.mShop.getTitle());
 
-        this.mShopOwner.setText(this.mShop.getOwner());
+        if (mShop.getOwner() != null) {
+            this.mShopOwner.setText(mOwnersData.getItem(mShop.getOwner()).getName());
+        }
+
         this.mOwnersAutocompleteAdapter = new OwnersAutocomplete(
                 getContext(),
                 R.layout.view_owners_autocomplete,

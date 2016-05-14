@@ -13,6 +13,7 @@ import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Dima Muravyov on 11.05.2016.
@@ -48,5 +49,9 @@ public class OwnersAutocomplete extends ArrayAdapter<Owner> {
         name.setText(owner.getName());
 
         return view;
+    }
+
+    public UUID getOwnerId(int position) {
+        return mItems.get(position).getId();
     }
 }

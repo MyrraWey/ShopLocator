@@ -6,6 +6,8 @@ import android.database.CursorWrapper;
 import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.database.DbSchema.ShopTable;
 
+import java.util.UUID;
+
 /**
  * Created by MyrraWey on 02.05.2016.
  */
@@ -29,7 +31,7 @@ public class ShopsCursorWrapper extends CursorWrapper {
         Shop shop = new Shop(uuid);
         shop.setTitle(title);
         shop.setCoord(coord);
-        shop.setOwner(owner);
+        shop.setOwner(UUID.fromString(owner));
         shop.setImageUrl(imageUrl);
 
         return shop;

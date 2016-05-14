@@ -1,7 +1,5 @@
 package com.muravyovdmitr.shoplocator.data;
 
-import android.content.ContentValues;
-
 import java.util.List;
 import java.util.UUID;
 

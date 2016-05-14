@@ -6,31 +6,40 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
+import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
+import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.CreateShopFragment;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
+import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 
 /**
  * Created by MyrraWey on 02.05.2016.
  */
 public class ShopsListHolder extends BaseListHolder<Shop> {
-    private Shop mShop;
-    private Context mContext;
-    private IOnItemRemove mOnShopRemove;
-
     private ImageView mShopImage;
     private TextView mShopTitle;
     private TextView mShopCoord;
     private TextView mShopOwner;
 
-    private View.OnClickListener mItemClick = new View.OnClickListener() {
+    private Shop mShop;
+    private Context mContext;
+    private IOnItemRemove mOnShopRemove;
+
+    private final IDataOperations<Owner> mOwnersData = new OwnersDatabaseWrapper(
+            ShopLocatorApplication.getInstance().getApplicationContext()
+    );
+
+    private final OnClickListener mItemClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
@@ -45,7 +54,7 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
         }
     };
 
-    private View.OnLongClickListener mItemLongClick = new View.OnLongClickListener() {
+    private final OnLongClickListener mItemLongClick = new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             new AlertDialog.Builder(mContext)
@@ -91,10 +100,11 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
     @Override
     public void bind(Shop shop) {
         this.mShop = shop;
+        String shopOwnerName = mOwnersData.getItem(shop.getOwner()).getName();
 
         this.mShopTitle.setText(shop.getTitle());
         this.mShopCoord.setText(shop.getCoord());
-        this.mShopOwner.setText(shop.getOwner());
+        this.mShopOwner.setText(shopOwnerName);
         ImageLoader.loadBitmapByUrl(this.mContext, shop.getImageUrl(), this.mShopImage);
     }
 

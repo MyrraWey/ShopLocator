@@ -26,7 +26,7 @@ public class ShopsDatabaseWrapper extends DatabaseWrapper<Shop, ShopsCursorWrapp
         contentValues.put(ShopTable.COLUMNS.UUID, item.getId().toString());
         contentValues.put(ShopTable.COLUMNS.TITLE, item.getTitle());
         contentValues.put(ShopTable.COLUMNS.COORD, item.getCoord());
-        contentValues.put(ShopTable.COLUMNS.OWNER, item.getOwner());
+        contentValues.put(ShopTable.COLUMNS.OWNER, item.getOwner().toString());
         contentValues.put(ShopTable.COLUMNS.IMAGE_URL, item.getImageUrl());
 
         return contentValues;

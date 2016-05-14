@@ -1,8 +1,6 @@
 package com.muravyovdmitr.shoplocator.fragment;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 
@@ -15,6 +13,7 @@ import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.ShopsListStrategy;
+import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 
 import java.util.List;
 
@@ -22,14 +21,9 @@ import java.util.List;
  * Created by MyrraWey on 02.05.2016.
  */
 public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
-    private IDataOperations mDataOperations;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mDataOperations = new OwnersDatabaseWrapper(getContext());
-    }
+    private final IDataOperations mShopsData = new OwnersDatabaseWrapper(
+            ShopLocatorApplication.getInstance().getApplicationContext()
+    );
 
     @Override
     public ShopsListAdapter getItemsListAdapter() {
@@ -52,7 +46,7 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
 
     @Override
     protected void createNewItem() {
-        if (mDataOperations.getItems().isEmpty()) {
+        if (mShopsData.getItems().isEmpty()) {
             getNoOwnersDialog().show();
         } else {
             super.createNewItem();
@@ -61,7 +55,7 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
 
     @Override
     public Fragment getCreateItemFragment() {
-        return this.mDataOperations.getItems().isEmpty() ?
+        return this.mShopsData.getItems().isEmpty() ?
                 new CreateOwnerFragment() :
                 new CreateShopFragment();
     }

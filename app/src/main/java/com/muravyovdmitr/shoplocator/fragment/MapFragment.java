@@ -2,6 +2,7 @@ package com.muravyovdmitr.shoplocator.fragment;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,6 +18,7 @@ import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.MapStrategy;
+import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 import com.muravyovdmitr.shoplocator.util.TextUtils;
 
 import java.util.List;
@@ -30,7 +32,11 @@ public class MapFragment extends BaseFragment {
     private List<Shop> mShops;
     private GoogleMap mGoogleMap;
 
-    private OnMapReadyCallback mMapReadyCallback = new OnMapReadyCallback() {
+    private final IDataOperations mShopsData = new ShopsDatabaseWrapper(
+            ShopLocatorApplication.getInstance().getApplicationContext()
+    );
+
+    private final OnMapReadyCallback mMapReadyCallback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mGoogleMap = googleMap;
@@ -42,6 +48,26 @@ public class MapFragment extends BaseFragment {
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(marker));
                 }
             }
+
+        }
+    };
+
+    private final OnPageChangeListener mShopsChangeListener = new OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            Shop shop = mShops.get(position);
+
+            LatLng shopCoord = TextUtils.getLatLngFromFormattedString(shop.getCoord());
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(shopCoord));
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
 
         }
     };
@@ -60,31 +86,12 @@ public class MapFragment extends BaseFragment {
     protected void setupData() {
         super.setupData();
 
-        IDataOperations dataOperations = new ShopsDatabaseWrapper(getContext());
-        this.mShops = dataOperations.getItems();
+        this.mShops = mShopsData.getItems();
 
         initMap();
 
         this.mShopsPager.setAdapter(new ShopsMapAdapter(getContext(), this.mShops));
-        this.mShopsPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Shop shop = mShops.get(position);
-
-                LatLng shopCoord = TextUtils.getLatLngFromFormattedString(shop.getCoord());
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(shopCoord));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        this.mShopsPager.addOnPageChangeListener(mShopsChangeListener);
     }
 
     private void initMap() {

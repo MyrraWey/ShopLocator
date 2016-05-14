@@ -9,7 +9,7 @@ public class Shop {
     private UUID mId;
     private String mTitle;
     private String mCoord;
-    private String mOwner;
+    private UUID mOwner;
     private String mImageUrl;
 
     public Shop() {
@@ -44,11 +44,11 @@ public class Shop {
         mCoord = coord;
     }
 
-    public String getOwner() {
+    public UUID getOwner() {
         return mOwner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(UUID owner) {
         mOwner = owner;
     }
 

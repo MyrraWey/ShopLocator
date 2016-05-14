@@ -19,9 +19,9 @@ public class OwnersListFragment extends BaseListFragment<OwnersListAdapter> {
 
     @Override
     public OwnersListAdapter getItemsListAdapter() {
-        IDataOperations dataOperations = new OwnersDatabaseWrapper(getContext());
+        final IDataOperations mOwnersData = new OwnersDatabaseWrapper(getContext());
 
-        final List<Owner> owners = dataOperations.getItems();
+        final List<Owner> owners = mOwnersData.getItems();
         final OwnersListAdapter adapter = new OwnersListAdapter(owners);
         adapter.setOnItemRemove(new IOnItemRemove() {
             @Override
