@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,9 +15,17 @@ import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
+import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
+import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.CreateOwnerFragment;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
+import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
+import com.muravyovdmitr.shoplocator.util.TextUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by MyrraWey on 02.05.2016.
@@ -29,7 +39,11 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
     private TextView mOwnerName;
     private TextView mOwnerShops;
 
-    private View.OnClickListener mItemClick = new View.OnClickListener() {
+    private final IDataOperations mShopsData = new ShopsDatabaseWrapper(
+            ShopLocatorApplication.getInstance().getApplicationContext()
+    );
+
+    private OnClickListener mItemClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
@@ -44,7 +58,7 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
         }
     };
 
-    private View.OnLongClickListener mItemLongClick = new View.OnLongClickListener() {
+    private OnLongClickListener mItemLongClick = new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             new AlertDialog.Builder(mContext)
@@ -60,12 +74,7 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
                             }
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // nothing to do here
-                        }
-                    })
+                    .setNegativeButton(android.R.string.no, null)
                     .show();
 
             return false;
@@ -91,13 +100,31 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
         this.mOwner = owner;
 
         this.mOwnerName.setText(owner.getName());
-        //TODO implement owner shops list
-        this.mOwnerShops.setText("Implement owner shops here");
+
+        String ownerShops = TextUtils.implode(getOwnerShops(mOwner.getId()), ", ");
+        if (ownerShops.isEmpty()) {
+            ownerShops = mContext.getResources().getString(R.string.activity_owners_list_empty_owner);
+        }
+        this.mOwnerShops.setText(ownerShops);
+
         ImageLoader.loadBitmapByUrl(this.mContext, owner.getImageUrl(), this.mOwnerImage);
     }
 
     @Override
     public void setOnItemRemove(IOnItemRemove ownerRemove) {
         this.mOnOwnerRemove = ownerRemove;
+    }
+
+    private List<String> getOwnerShops(UUID ownerId) {
+        List<String> ownerShops = new ArrayList<>();
+
+        List<Shop> shops = mShopsData.getItems();
+        for (Shop shop : shops) {
+            if (shop.getOwner().equals(ownerId)) {
+                ownerShops.add(shop.getTitle());
+            }
+        }
+
+        return ownerShops;
     }
 }

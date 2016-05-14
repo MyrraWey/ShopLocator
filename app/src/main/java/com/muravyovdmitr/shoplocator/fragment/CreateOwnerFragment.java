@@ -5,15 +5,19 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
+import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
+import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.CreateOwnerStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
@@ -22,7 +26,9 @@ import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -39,9 +45,14 @@ public class CreateOwnerFragment extends BaseFragment {
     private TextInputLayout mImageUrlLayout;
     private TextInputLayout mOwnerNameLayout;
     private Button mSaveOwner;
+    private ListView mShopsList;
 
     private Owner mOwner;
     private boolean mLoaded;
+
+    private final IDataOperations mShopsData = new ShopsDatabaseWrapper(
+            ShopLocatorApplication.getInstance().getApplicationContext()
+    );
 
     private final IDataOperations mOwnersData = new OwnersDatabaseWrapper(
             ShopLocatorApplication.getInstance().getApplicationContext()
@@ -112,6 +123,7 @@ public class CreateOwnerFragment extends BaseFragment {
         this.mImageUrlLayout = (TextInputLayout) view.findViewById(R.id.fragment_create_owner_image_url_layout);
         this.mOwnerNameLayout = (TextInputLayout) view.findViewById(R.id.fragment_create_owner_name_layout);
         this.mSaveOwner = (Button) view.findViewById(R.id.fragment_create_owner_save);
+        this.mShopsList = (ListView) view.findViewById(R.id.fragment_create_owner_shops_list);
     }
 
     @Override
@@ -127,6 +139,9 @@ public class CreateOwnerFragment extends BaseFragment {
 
         this.mSaveOwner.setOnClickListener(this.mClickListener);
         this.mSaveOwner.setText(this.mLoaded ? getResources().getString(R.string.fragment_create_owner_changes) : getResources().getString(R.string.fragment_create_owner_save));
+
+        //TODO open shop on item click
+        this.mShopsList.setAdapter(getOwnerShopsAdapter());
     }
 
     @Override
@@ -147,5 +162,21 @@ public class CreateOwnerFragment extends BaseFragment {
     @Override
     protected IBaseFragmentStrategy getLoadingStrategy() {
         return new CreateOwnerStrategy();
+    }
+
+    private ArrayAdapter<String> getOwnerShopsAdapter() {
+        List<Shop> shops = mShopsData.getItems();
+        List<String> shopsName = new ArrayList<>();
+        for (Shop shop : shops) {
+            if (mOwner.getId().equals(shop.getOwner())) {
+                shopsName.add(shop.getTitle());
+            }
+        }
+
+        return new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_list_item_1,
+                shopsName
+        );
     }
 }

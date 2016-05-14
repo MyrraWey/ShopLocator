@@ -36,8 +36,10 @@
     <string name="fragment_create_owner_image_url_error">Image URL must be filled!</string>
     <string name="fragment_create_owner_name_error">Owner Name must be filled!</string>
     <string name="fragment_create_owner_error_message">All fields must be filled!</string>
+    <string name="fragment_create_owner_shops_list_title">Owner shops</string>
 
     <string name="menu_owners_list_create_shop">Add new</string>
+    <string name="activity_owners_list_empty_owner">This owner doesn\'t have its shops.</string>
 
     <string name="base_list_empty_text">The list is empty!</string>
     <string name="base_list_create_new_shop">Create new</string>

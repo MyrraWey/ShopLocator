@@ -34,6 +34,8 @@
         android:layout_alignLeft="@+id/owners_list_item_name"
         android:layout_alignStart="@+id/owners_list_item_name"
         android:layout_below="@+id/owners_list_item_name"
+        android:ellipsize="end"
+        android:maxLines="3"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="Medium Text"/>
 </RelativeLayout>

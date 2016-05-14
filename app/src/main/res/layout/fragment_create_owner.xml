@@ -64,4 +64,25 @@
         android:layout_alignRight="@+id/fragment_create_owner_name_layout"
         android:text="@string/fragment_create_owner_save"/>
 
+    <TextView
+        android:id="@+id/fragment_create_owner_shops_list_title"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fragment_create_owner_name_layout"
+        android:layout_alignStart="@+id/fragment_create_owner_name_layout"
+        android:layout_below="@+id/fragment_create_owner_name_layout"
+        android:text="@string/fragment_create_owner_shops_list_title"/>
+
+    <ListView
+        android:id="@+id/fragment_create_owner_shops_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fragment_create_owner_save"
+        android:layout_alignEnd="@+id/fragment_create_owner_name_layout"
+        android:layout_alignLeft="@+id/fragment_create_owner_name_layout"
+        android:layout_alignRight="@+id/fragment_create_owner_name_layout"
+        android:layout_alignStart="@+id/fragment_create_owner_name_layout"
+        android:layout_below="@+id/fragment_create_owner_shops_list_title"/>
+
 </RelativeLayout>

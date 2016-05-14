@@ -70,12 +70,7 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
                             }
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // nothing to do here
-                        }
-                    })
+                    .setNegativeButton(android.R.string.no, null)
                     .show();
 
             return false;
