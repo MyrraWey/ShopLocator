@@ -3,7 +3,7 @@ package com.muravyovdmitr.shoplocator.holder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,21 +61,11 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
     private OnLongClickListener mItemLongClick = new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.base_list_delete_dialog_title)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            IDataOperations dataOperations = new OwnersDatabaseWrapper(mContext);
-                            dataOperations.deleteItem(mOwner);
-
-                            if (mOnOwnerRemove != null) {
-                                mOnOwnerRemove.removeItem(getAdapterPosition());
-                            }
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
+            //TODO add option for deleting all shops with owner
+            Builder dialog = isOwnerCanBeDeleted() ?
+                    getGrantedRemoveDialog() :
+                    getDeniedRemoveDialog();
+            dialog.show();
 
             return false;
         }
@@ -126,5 +116,43 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
         }
 
         return ownerShops;
+    }
+
+    private Builder getGrantedRemoveDialog() {
+        return new Builder(mContext)
+                .setTitle(R.string.base_list_delete_dialog_title)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        IDataOperations dataOperations = new OwnersDatabaseWrapper(mContext);
+                        dataOperations.deleteItem(mOwner);
+
+                        if (mOnOwnerRemove != null) {
+                            mOnOwnerRemove.removeItem(getAdapterPosition());
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null);
+    }
+
+    private Builder getDeniedRemoveDialog() {
+        return new Builder(mContext)
+                .setTitle(R.string.owners_list_holder_has_shop)
+                .setPositiveButton(android.R.string.yes, null);
+    }
+
+    private boolean isOwnerCanBeDeleted() {
+        boolean result = true;
+
+        List<Shop> shops = mShopsData.getItems();
+        for (Shop shop : shops) {
+            if (shop.getOwner().equals(mOwner.getId())) {
+                result = false;
+
+                break;
+            }
+        }
+
+        return result;
     }
 }
