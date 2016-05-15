@@ -12,6 +12,11 @@ public class Shop {
     private UUID mOwner;
     private String mImageUrl;
 
+    @Override
+    public String toString() {
+        return mTitle;
+    }
+
     public Shop() {
         this(UUID.randomUUID());
     }

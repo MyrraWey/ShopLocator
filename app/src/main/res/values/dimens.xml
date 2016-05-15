@@ -41,4 +41,7 @@
     <dimen name="owners_autocomplete_image_size">70dp</dimen>
     <dimen name="owners_autocomplete_margin">8dp</dimen>
 
+    <dimen name="shops_search_image_size">70dp</dimen>
+    <dimen name="shops_search_margin">8dp</dimen>
+
 </resources>
