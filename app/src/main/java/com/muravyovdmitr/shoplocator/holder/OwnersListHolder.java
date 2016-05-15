@@ -13,14 +13,12 @@ import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
+import com.muravyovdmitr.shoplocator.data.DataWrapperFactory;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
-import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.CreateOwnerFragment;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
-import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 import com.muravyovdmitr.shoplocator.util.TextUtils;
 
 import java.util.ArrayList;
@@ -39,9 +37,8 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
     private TextView mOwnerName;
     private TextView mOwnerShops;
 
-    private final IDataOperations mShopsData = new ShopsDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
+    private final IDataOperations mShopsData = DataWrapperFactory.getShopsDataWrapper();
+    private final IDataOperations mOwnersData = DataWrapperFactory.getOwnersDataWrapper();
 
     private OnClickListener mItemClick = new OnClickListener() {
         @Override
@@ -124,8 +121,7 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        IDataOperations dataOperations = new OwnersDatabaseWrapper(mContext);
-                        dataOperations.deleteItem(mOwner);
+                        mOwnersData.deleteItem(mOwner);
 
                         if (mOnOwnerRemove != null) {
                             mOnOwnerRemove.removeItem(getAdapterPosition());

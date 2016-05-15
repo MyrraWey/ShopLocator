@@ -7,13 +7,11 @@ import android.support.v7.app.AlertDialog;
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
 import com.muravyovdmitr.shoplocator.adapter.ShopsListAdapter;
+import com.muravyovdmitr.shoplocator.data.DataWrapperFactory;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
-import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.ShopsListStrategy;
-import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 
 import java.util.List;
 
@@ -21,15 +19,11 @@ import java.util.List;
  * Created by MyrraWey on 02.05.2016.
  */
 public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
-    private final IDataOperations mShopsData = new OwnersDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
+    private final IDataOperations mShopsData = DataWrapperFactory.getShopsDataWrapper();
 
     @Override
     public ShopsListAdapter getItemsListAdapter() {
-        IDataOperations dataOperations = new ShopsDatabaseWrapper(getContext());
-
-        final List<Shop> shops = dataOperations.getItems();
+        final List<Shop> shops = mShopsData.getItems();
         final ShopsListAdapter adapter = new ShopsListAdapter(shops);
         adapter.setOnItemRemove(new IOnItemRemove() {
             @Override

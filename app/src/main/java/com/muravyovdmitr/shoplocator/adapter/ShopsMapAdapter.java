@@ -9,12 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.data.DataWrapperFactory;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
-import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 
 import java.util.List;
 
@@ -25,9 +24,7 @@ public class ShopsMapAdapter extends PagerAdapter {
     private Context mContext;
     private List<Shop> mShops;
 
-    private final IDataOperations mOwnersData = new OwnersDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
+    private final IDataOperations mOwnersData = DataWrapperFactory.getOwnersDataWrapper();
 
     public ShopsMapAdapter(Context context, List<Shop> shops) {
         this.mContext = context;

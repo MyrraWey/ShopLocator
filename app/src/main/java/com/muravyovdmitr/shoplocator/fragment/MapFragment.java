@@ -18,12 +18,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.ShopsMapAdapter;
 import com.muravyovdmitr.shoplocator.adapter.ShopsSearch;
+import com.muravyovdmitr.shoplocator.data.DataWrapperFactory;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.MapStrategy;
-import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 import com.muravyovdmitr.shoplocator.util.TextUtils;
 
 import java.util.List;
@@ -39,9 +38,7 @@ public class MapFragment extends BaseFragment {
     private ArrayAdapter mShopsSearchAdapter;
     private GoogleMap mGoogleMap;
 
-    private final IDataOperations mShopsData = new ShopsDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
+    private final IDataOperations mShopsData = DataWrapperFactory.getShopsDataWrapper();
 
     private final OnMapReadyCallback mMapReadyCallback = new OnMapReadyCallback() {
         @Override

@@ -14,7 +14,7 @@ public class SingleTextWatcher extends ValidateWatcher {
     public boolean isValid(String text) {
         boolean valid = true;
 
-        if (text.trim().length() == 0) {
+        if (text.trim().isEmpty()) {
             valid = false;
         }
 

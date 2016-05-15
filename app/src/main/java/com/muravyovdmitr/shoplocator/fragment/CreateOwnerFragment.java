@@ -13,16 +13,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.data.DataWrapperFactory;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
-import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.CreateOwnerStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
-import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 import com.muravyovdmitr.shoplocator.watcher.SingleTextWatcher;
 
@@ -50,13 +48,8 @@ public class CreateOwnerFragment extends BaseFragment {
     private Owner mOwner;
     private boolean mLoaded;
 
-    private final IDataOperations mShopsData = new ShopsDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
-
-    private final IDataOperations mOwnersData = new OwnersDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
+    private final IDataOperations mShopsData = DataWrapperFactory.getShopsDataWrapper();
+    private final IDataOperations mOwnersData = DataWrapperFactory.getOwnersDataWrapper();
 
     private OnClickListener mClickListener = new OnClickListener() {
         @Override

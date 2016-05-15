@@ -14,16 +14,14 @@ import android.widget.Toast;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.OwnersAutocomplete;
+import com.muravyovdmitr.shoplocator.data.DataWrapperFactory;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
-import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.strategy.CreateShopStrategy;
 import com.muravyovdmitr.shoplocator.fragment.strategy.IBaseFragmentStrategy;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
 import com.muravyovdmitr.shoplocator.util.KeyboardManager;
-import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 import com.muravyovdmitr.shoplocator.watcher.AutocompleteOwnersValidator;
 import com.muravyovdmitr.shoplocator.watcher.ITextValidator;
 import com.muravyovdmitr.shoplocator.watcher.LocationWatcher;
@@ -57,12 +55,8 @@ public class CreateShopFragment extends BaseFragment {
     private boolean mLoaded;
     private OwnersAutocomplete mOwnersAutocompleteAdapter;
 
-    private final IDataOperations<Shop> mShopsData = new ShopsDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
-    private final IDataOperations<Owner> mOwnersData = new OwnersDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
+    private final IDataOperations mShopsData = DataWrapperFactory.getShopsDataWrapper();
+    private final IDataOperations mOwnersData = DataWrapperFactory.getOwnersDataWrapper();
 
     private final AdapterView.OnItemClickListener mAutocompleteItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -120,7 +114,7 @@ public class CreateShopFragment extends BaseFragment {
         if (id != null) {
             this.mLoaded = true;
 
-            this.mShop = this.mShopsData.getItem(id);
+            this.mShop = (Shop) this.mShopsData.getItem(id);
         } else {
             this.mLoaded = false;
 
@@ -154,7 +148,7 @@ public class CreateShopFragment extends BaseFragment {
         this.mShopTitle.setText(this.mShop.getTitle());
 
         if (mShop.getOwner() != null) {
-            this.mShopOwner.setText(mOwnersData.getItem(mShop.getOwner()).getName());
+            mShopOwner.setText(((Owner) mOwnersData.getItem(mShop.getOwner())).getName());
         }
 
         this.mOwnersAutocompleteAdapter = new OwnersAutocomplete(
@@ -202,8 +196,6 @@ public class CreateShopFragment extends BaseFragment {
     }
 
     protected List<Owner> getOwnersList() {
-        IDataOperations ownersSource = new OwnersDatabaseWrapper(getContext());
-
-        return ownersSource.getItems();
+        return mOwnersData.getItems();
     }
 }

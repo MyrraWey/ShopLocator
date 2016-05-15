@@ -13,14 +13,12 @@ import android.widget.TextView;
 
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.adapter.IOnItemRemove;
+import com.muravyovdmitr.shoplocator.data.DataWrapperFactory;
 import com.muravyovdmitr.shoplocator.data.IDataOperations;
 import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
-import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
-import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.fragment.CreateShopFragment;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
-import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 
 /**
  * Created by MyrraWey on 02.05.2016.
@@ -35,9 +33,8 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
     private Context mContext;
     private IOnItemRemove mOnShopRemove;
 
-    private final IDataOperations<Owner> mOwnersData = new OwnersDatabaseWrapper(
-            ShopLocatorApplication.getInstance().getApplicationContext()
-    );
+    private final IDataOperations mShopsData = DataWrapperFactory.getShopsDataWrapper();
+    private final IDataOperations mOwnersData = DataWrapperFactory.getOwnersDataWrapper();
 
     private final OnClickListener mItemClick = new OnClickListener() {
         @Override
@@ -62,8 +59,7 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            IDataOperations dataOperations = new ShopsDatabaseWrapper(mContext);
-                            dataOperations.deleteItem(mShop);
+                            mShopsData.deleteItem(mShop);
 
                             if (mOnShopRemove != null) {
                                 mOnShopRemove.removeItem(getAdapterPosition());
@@ -95,7 +91,7 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
     @Override
     public void bind(Shop shop) {
         this.mShop = shop;
-        String shopOwnerName = mOwnersData.getItem(shop.getOwner()).getName();
+        String shopOwnerName = ((Owner) mOwnersData.getItem(shop.getOwner())).getName();
 
         this.mShopTitle.setText(shop.getTitle());
         this.mShopCoord.setText(shop.getCoord());
