@@ -17,6 +17,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDAVx0JjaChDbr0QpSrkpAhXezqonv70PY"/>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8f0c3a3fcc54e11a39bf90c68ddc98ddef796e77"/>
+
         <activity
             android:name=".activity.SplashingActivity"
             android:noHistory="true"

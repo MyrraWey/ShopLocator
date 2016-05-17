@@ -9,10 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.muravyovdmitr.shoplocator.R;
 import com.muravyovdmitr.shoplocator.util.SettingsManager;
 
 import java.util.concurrent.TimeUnit;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Dima Muravyov on 09.05.2016.
@@ -70,6 +73,8 @@ public class SplashingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashing);
+
+        Fabric.with(getApplicationContext(), new Crashlytics());
 
         this.mSettingsManager = new SettingsManager(this);
 
