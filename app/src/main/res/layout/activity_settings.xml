@@ -103,4 +103,11 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/activity_settings_base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_settings_margin_4u"
+        android:text="@string/activity_settings_base"/>
+
 </LinearLayout>

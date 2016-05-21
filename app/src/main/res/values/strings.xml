@@ -64,4 +64,9 @@
     <string name="activity_settings_splashing_delay">Splashing screen delay</string>
     <string name="activity_settings_splashing_enable">Enable splashing screen</string>
     <string name="activity_settings_splashing">Splashing screen</string>
+    <string name="activity_settings_base">Backup database by mail</string>
+    <string name="activity_settings_mail_subject">Backup database by mail</string>
+    <string name="activity_settings_mail_body">Database backup</string>
+    <string name="activity_settings_mail_chooser_title">Send E-Mail</string>
+    <string name="activity_settings_mail_error">Sorry, but we can\'t send Database by mail. Check App permission please.</string>
 </resources>

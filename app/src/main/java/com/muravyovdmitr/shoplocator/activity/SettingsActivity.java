@@ -2,15 +2,20 @@ package com.muravyovdmitr.shoplocator.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
 
 import com.muravyovdmitr.shoplocator.R;
+import com.muravyovdmitr.shoplocator.fragment.BackupDialogFragment;
 import com.muravyovdmitr.shoplocator.util.SettingsManager;
 
 /**
@@ -21,24 +26,32 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageButton mSplashScreenDelayIncrease;
     private ImageButton mSplashScreenDelayDecrease;
     private EditText mSplashScreenDelay;
+    private Button mDatabaseButton;
 
     private SettingsManager mSettings;
 
-    private View.OnClickListener mDecreaseDelay = new View.OnClickListener() {
+    private OnClickListener mDecreaseDelay = new OnClickListener() {
         @Override
         public void onClick(View v) {
             setSplashDelayValue(mSettings.getSplashingScreenDuration() + 1);
         }
     };
 
-    private View.OnClickListener mIncreaseDelay = new View.OnClickListener() {
+    private OnClickListener mIncreaseDelay = new OnClickListener() {
         @Override
         public void onClick(View v) {
             setSplashDelayValue(mSettings.getSplashingScreenDuration() - 1);
         }
     };
 
-    private CompoundButton.OnCheckedChangeListener mDelayEnable = new CompoundButton.OnCheckedChangeListener() {
+    private OnClickListener mDatabaseButtonClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            sendBaseByEmail();
+        }
+    };
+
+    private OnCheckedChangeListener mDelayEnable = new OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             setSplashEnable(isChecked);
@@ -65,6 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
         this.mSplashScreenDelayIncrease = (ImageButton) findViewById(R.id.activity_settings_increase_delay);
         this.mSplashScreenDelayDecrease = (ImageButton) findViewById(R.id.activity_settings_decrease_delay);
         this.mSplashScreenDelay = (EditText) findViewById(R.id.activity_settings_delay);
+        mDatabaseButton = (Button) findViewById(R.id.activity_settings_base);
     }
 
     private void setupData() {
@@ -77,6 +91,8 @@ public class SettingsActivity extends AppCompatActivity {
         this.mSplashScreenDelayDecrease.setOnClickListener(this.mDecreaseDelay);
 
         this.mSplashScreenDelayIncrease.setOnClickListener(this.mIncreaseDelay);
+
+        mDatabaseButton.setOnClickListener(mDatabaseButtonClickListener);
     }
 
     private void setSplashScreenDelayEnable(boolean enable) {
@@ -96,5 +112,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         this.mSettings.setSplashingScreenDuration(value);
         this.mSplashScreenDelay.setText(String.valueOf(value));
+    }
+
+    private void sendBaseByEmail() {
+        DialogFragment dialogFragment = new BackupDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(), null);
     }
 }
