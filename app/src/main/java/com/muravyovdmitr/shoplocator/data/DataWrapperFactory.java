@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.muravyovdmitr.shoplocator.database.OwnersDatabaseWrapper;
 import com.muravyovdmitr.shoplocator.database.ShopsDatabaseWrapper;
+import com.muravyovdmitr.shoplocator.network.OwnersNetworkWrapper;
+import com.muravyovdmitr.shoplocator.network.ShopsNetworkWrapper;
 import com.muravyovdmitr.shoplocator.util.NetworkStateChecker;
 import com.muravyovdmitr.shoplocator.util.ShopLocatorApplication;
 
@@ -17,7 +19,7 @@ public class DataWrapperFactory {
         Context context = ShopLocatorApplication.getInstance().getApplicationContext();
         if (NetworkStateChecker.isNetworkAvailable(context)) {
             //TODO add REST API DataWrapper here
-            dataOperations = new ShopsDatabaseWrapper(context);
+            dataOperations = new ShopsNetworkWrapper();
         } else {
             dataOperations = new ShopsDatabaseWrapper(context);
         }
@@ -31,7 +33,7 @@ public class DataWrapperFactory {
         Context context = ShopLocatorApplication.getInstance().getApplicationContext();
         if (NetworkStateChecker.isNetworkAvailable(context)) {
             //TODO add REST API DataWrapper here
-            dataOperations = new OwnersDatabaseWrapper(context);
+            dataOperations = new OwnersNetworkWrapper();
         } else {
             dataOperations = new OwnersDatabaseWrapper(context);
         }

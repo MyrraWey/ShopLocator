@@ -1,13 +1,20 @@
 package com.muravyovdmitr.shoplocator.data;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.UUID;
 
 /**
  * Created by MyrraWey on 05.05.2016.
  */
-public class Owner {
+public class Owner extends BaseBackendlessObject {
+    @SerializedName("id")
     private UUID mId;
+
+    @SerializedName("name")
     private String mName;
+
+    @SerializedName("imageUrl")
     private String mImageUrl;
 
     public Owner() {

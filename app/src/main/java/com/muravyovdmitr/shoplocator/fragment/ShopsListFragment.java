@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
     private final IDataOperations mShopsData = DataWrapperFactory.getShopsDataWrapper();
+    private final IDataOperations mOwnersData = DataWrapperFactory.getOwnersDataWrapper();
 
     @Override
     public ShopsListAdapter getItemsListAdapter() {
@@ -40,7 +41,7 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
 
     @Override
     protected void createNewItem() {
-        if (mShopsData.getItems().isEmpty()) {
+        if (mOwnersData.getItems().isEmpty()) {
             getNoOwnersDialog().show();
         } else {
             super.createNewItem();
@@ -49,7 +50,7 @@ public class ShopsListFragment extends BaseListFragment<ShopsListAdapter> {
 
     @Override
     public Fragment getCreateItemFragment() {
-        return this.mShopsData.getItems().isEmpty() ?
+        return mOwnersData.getItems().isEmpty() ?
                 new CreateOwnerFragment() :
                 new CreateShopFragment();
     }
