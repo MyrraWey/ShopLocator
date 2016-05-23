@@ -17,9 +17,11 @@ import retrofit.Response;
  */
 public class OwnersNetworkWrapper implements IDataOperations<Owner> {
     private Services.OwnerService mService;
+    private IDataOperations<Owner> mDataChainOperations;
 
-    public OwnersNetworkWrapper() {
+    public OwnersNetworkWrapper(IDataOperations<Owner> chainOperations) {
         mService = ServiceFactory.createRetrofitService(Services.OwnerService.class);
+        mDataChainOperations = chainOperations;
 
         //TODO temporary solution, replace it
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -61,6 +63,8 @@ public class OwnersNetworkWrapper implements IDataOperations<Owner> {
 
     @Override
     public void addItem(Owner item) {
+        mDataChainOperations.addItem(item);
+
         try {
             mService.createOwner(item).execute();
         } catch (IOException e) {
@@ -70,6 +74,8 @@ public class OwnersNetworkWrapper implements IDataOperations<Owner> {
 
     @Override
     public void updateItem(Owner item) {
+        mDataChainOperations.updateItem(item);
+
         try {
             mService.updateOwner(getBackendlessId(item.getId()), item).execute();
         } catch (IOException e) {
@@ -79,6 +85,8 @@ public class OwnersNetworkWrapper implements IDataOperations<Owner> {
 
     @Override
     public void deleteItem(Owner item) {
+        mDataChainOperations.deleteItem(item);
+
         try {
             mService.deleteOwner(getBackendlessId(item.getId())).execute();
         } catch (IOException e) {

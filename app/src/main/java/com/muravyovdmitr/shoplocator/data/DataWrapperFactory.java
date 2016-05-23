@@ -18,8 +18,9 @@ public class DataWrapperFactory {
 
         Context context = ShopLocatorApplication.getInstance().getApplicationContext();
         if (NetworkStateChecker.isNetworkAvailable(context)) {
-            //TODO add REST API DataWrapper here
-            dataOperations = new ShopsNetworkWrapper();
+            dataOperations = new ShopsNetworkWrapper(
+                    new ShopsDatabaseWrapper(context)
+            );
         } else {
             dataOperations = new ShopsDatabaseWrapper(context);
         }
@@ -32,8 +33,9 @@ public class DataWrapperFactory {
 
         Context context = ShopLocatorApplication.getInstance().getApplicationContext();
         if (NetworkStateChecker.isNetworkAvailable(context)) {
-            //TODO add REST API DataWrapper here
-            dataOperations = new OwnersNetworkWrapper();
+            dataOperations = new OwnersNetworkWrapper(
+                    new OwnersDatabaseWrapper(context)
+            );
         } else {
             dataOperations = new OwnersDatabaseWrapper(context);
         }

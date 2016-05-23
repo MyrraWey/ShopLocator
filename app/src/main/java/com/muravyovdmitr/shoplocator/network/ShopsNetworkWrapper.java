@@ -17,9 +17,11 @@ import retrofit.Response;
  */
 public class ShopsNetworkWrapper implements IDataOperations<Shop> {
     private Services.ShopService mService;
+    private IDataOperations<Shop> mDataChainOperations;
 
-    public ShopsNetworkWrapper() {
+    public ShopsNetworkWrapper(IDataOperations<Shop> chainOperations) {
         mService = ServiceFactory.createRetrofitService(Services.ShopService.class);
+        mDataChainOperations = chainOperations;
 
         //TODO temporary solution, replace it
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -61,6 +63,8 @@ public class ShopsNetworkWrapper implements IDataOperations<Shop> {
 
     @Override
     public void addItem(Shop item) {
+        mDataChainOperations.addItem(item);
+
         try {
             mService.createShop(item).execute();
         } catch (IOException e) {
@@ -70,6 +74,8 @@ public class ShopsNetworkWrapper implements IDataOperations<Shop> {
 
     @Override
     public void updateItem(Shop item) {
+        mDataChainOperations.updateItem(item);
+
         try {
             mService.updateShop(getBackendlessId(item.getId()), item).execute();
         } catch (IOException e) {
@@ -79,6 +85,8 @@ public class ShopsNetworkWrapper implements IDataOperations<Shop> {
 
     @Override
     public void deleteItem(Shop item) {
+        mDataChainOperations.deleteItem(item);
+
         try {
             mService.deleteShop(getBackendlessId(item.getId())).execute();
         } catch (IOException e) {
