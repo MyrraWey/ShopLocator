@@ -19,6 +19,7 @@ import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.fragment.CreateOwnerFragment;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
+import com.muravyovdmitr.shoplocator.util.NetworkStateChecker;
 import com.muravyovdmitr.shoplocator.util.TextUtils;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
     private final IDataOperations mShopsData = DataWrapperFactory.getShopsDataWrapper();
     private final IDataOperations mOwnersData = DataWrapperFactory.getOwnersDataWrapper();
 
-    private OnClickListener mItemClick = new OnClickListener() {
+    private final OnClickListener mItemClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
@@ -55,7 +56,7 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
         }
     };
 
-    private OnLongClickListener mItemLongClick = new OnLongClickListener() {
+    private final OnLongClickListener mItemLongClick = new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             //TODO add option for deleting all shops with owner
@@ -133,12 +134,20 @@ public class OwnersListHolder extends BaseListHolder<Owner> {
 
     private Builder getDeniedRemoveDialog() {
         return new Builder(mContext)
-                .setTitle(R.string.owners_list_holder_has_shop)
+                .setTitle(
+                        NetworkStateChecker.isNetworkAvailable(mContext) ?
+                                R.string.owners_list_holder_has_shop :
+                                R.string.owners_list_holder_no_network
+                )
                 .setPositiveButton(android.R.string.yes, null);
     }
 
     private boolean isOwnerCanBeDeleted() {
         boolean result = true;
+
+        if (!NetworkStateChecker.isNetworkAvailable(mContext)) {
+            return false;
+        }
 
         List<Shop> shops = mShopsData.getItems();
         for (Shop shop : shops) {

@@ -19,6 +19,7 @@ import com.muravyovdmitr.shoplocator.data.Owner;
 import com.muravyovdmitr.shoplocator.data.Shop;
 import com.muravyovdmitr.shoplocator.fragment.CreateShopFragment;
 import com.muravyovdmitr.shoplocator.util.ImageLoader;
+import com.muravyovdmitr.shoplocator.util.NetworkStateChecker;
 
 /**
  * Created by MyrraWey on 02.05.2016.
@@ -54,20 +55,10 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
     private final OnLongClickListener mItemLongClick = new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.base_list_delete_dialog_title)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mShopsData.deleteItem(mShop);
-
-                            if (mOnShopRemove != null) {
-                                mOnShopRemove.removeItem(getAdapterPosition());
-                            }
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
+            AlertDialog.Builder dialog = isShopCanBeDeleted() ?
+                    getGrantedRemoveDialog() :
+                    getDeniedRemoveDialog();
+            dialog.show();
 
             return false;
         }
@@ -102,5 +93,35 @@ public class ShopsListHolder extends BaseListHolder<Shop> {
     @Override
     public void setOnItemRemove(IOnItemRemove shopRemove) {
         this.mOnShopRemove = shopRemove;
+    }
+
+    private AlertDialog.Builder getGrantedRemoveDialog() {
+        return new AlertDialog.Builder(mContext)
+                .setTitle(R.string.base_list_delete_dialog_title)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mShopsData.deleteItem(mShop);
+
+                        if (mOnShopRemove != null) {
+                            mOnShopRemove.removeItem(getAdapterPosition());
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null);
+    }
+
+    private AlertDialog.Builder getDeniedRemoveDialog() {
+        return new AlertDialog.Builder(mContext)
+                .setTitle(R.string.shops_list_holder_no_network)
+                .setPositiveButton(android.R.string.yes, null);
+    }
+
+    private boolean isShopCanBeDeleted() {
+        if (!NetworkStateChecker.isNetworkAvailable(mContext)) {
+            return false;
+        }
+
+        return true;
     }
 }

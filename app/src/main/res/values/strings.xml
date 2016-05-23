@@ -42,6 +42,9 @@
     <string name="activity_owners_list_empty_owner">This owner doesn\'t have its shops.</string>
 
     <string name="owners_list_holder_has_shop">Owner has one or more shops and can\'t be deleted.</string>
+    <string name="owners_list_holder_no_network">Owner can be deleted only when server connection is established.</string>
+
+    <string name="shops_list_holder_no_network">Shop can be deleted only when server connection is established.</string>
 
     <string name="base_list_empty_text">The list is empty!</string>
     <string name="base_list_create_new_shop">Create new</string>
