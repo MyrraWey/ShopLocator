@@ -25,6 +25,7 @@ public class ShopLocatorDbHelper extends SQLiteOpenHelper {
             ShopTable.COLUMNS.OWNER + TEXT_TYPE + COMMA_SEP +
             ShopTable.COLUMNS.COORD + TEXT_TYPE + COMMA_SEP +
             ShopTable.COLUMNS.IMAGE_URL + TEXT_TYPE +
+            ShopTable.COLUMNS.UPDATED + TEXT_TYPE +
             " );";
     private static final String OWNERS_TABLE_CREATE = "" +
             "CREATE TABLE " + OwnerTable.NAME + " ( " +
@@ -32,6 +33,7 @@ public class ShopLocatorDbHelper extends SQLiteOpenHelper {
             OwnerTable.COLUMNS.UUID + TEXT_TYPE + COMMA_SEP +
             OwnerTable.COLUMNS.NAME + TEXT_TYPE + COMMA_SEP +
             OwnerTable.COLUMNS.IMAGE_URL + TEXT_TYPE +
+            OwnerTable.COLUMNS.UPDATED + TEXT_TYPE +
             " );";
 
     public ShopLocatorDbHelper(Context context) {

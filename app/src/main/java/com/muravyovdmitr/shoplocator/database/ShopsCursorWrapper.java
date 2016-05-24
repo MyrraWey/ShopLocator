@@ -27,12 +27,14 @@ public class ShopsCursorWrapper extends CursorWrapper {
         String coord = getString(getColumnIndex(ShopTable.COLUMNS.COORD));
         String owner = getString(getColumnIndex(ShopTable.COLUMNS.OWNER));
         String imageUrl = getString(getColumnIndex(ShopTable.COLUMNS.IMAGE_URL));
+        String updated = getString(getColumnIndex(ShopTable.COLUMNS.UPDATED));
 
         Shop shop = new Shop(uuid);
         shop.setTitle(title);
         shop.setCoord(coord);
         shop.setOwner(UUID.fromString(owner));
         shop.setImageUrl(imageUrl);
+        shop.setUpdated(updated);
 
         return shop;
     }
