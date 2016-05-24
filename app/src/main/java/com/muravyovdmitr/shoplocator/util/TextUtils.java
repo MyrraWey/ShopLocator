@@ -2,6 +2,10 @@ package com.muravyovdmitr.shoplocator.util;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +33,24 @@ public class TextUtils {
             builder.append(item + glue);
         }
         result = builder.substring(0, builder.length() - glue.length());
+
+        return result;
+    }
+
+    public static Date getDateFromString(String date) {
+        return getDateFromString(date, "EEE MMM dd HH:mm:ss zzz yyyy");
+    }
+
+    public static Date getDateFromString(String date, String timeFormat) {
+        DateFormat format = new SimpleDateFormat(timeFormat);
+
+        Date result;
+
+        try {
+            result = format.parse(date);
+        } catch (ParseException e) {
+            result = null;
+        }
 
         return result;
     }
