@@ -25,11 +25,13 @@ public class OwnersCursorWrapper extends CursorWrapper {
         String uuid = getString(getColumnIndex(OwnerTable.COLUMNS.UUID));
         String name = getString(getColumnIndex(OwnerTable.COLUMNS.NAME));
         String imageUrl = getString(getColumnIndex(OwnerTable.COLUMNS.IMAGE_URL));
+        String created = getString(getColumnIndex(OwnerTable.COLUMNS.CREATED));
         String updated = getString(getColumnIndex(OwnerTable.COLUMNS.UPDATED));
 
         Owner owner = new Owner(UUID.fromString(uuid));
         owner.setName(name);
         owner.setImageUrl(imageUrl);
+        owner.setCreated(created);
         owner.setUpdated(updated);
 
         return owner;

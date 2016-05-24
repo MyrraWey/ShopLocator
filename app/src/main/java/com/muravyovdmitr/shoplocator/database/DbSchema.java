@@ -18,6 +18,7 @@ public final class DbSchema {
             public static final String COORD = "coord";
             public static final String OWNER = "owner";
             public static final String IMAGE_URL = "image_url";
+            public static final String CREATED = "created";
             public static final String UPDATED = "updated";
         }
     }
@@ -29,6 +30,7 @@ public final class DbSchema {
             public static final String UUID = "uuid";
             public static final String NAME = "name";
             public static final String IMAGE_URL = "image_url";
+            public static final String CREATED = "created";
             public static final String UPDATED = "updated";
         }
     }

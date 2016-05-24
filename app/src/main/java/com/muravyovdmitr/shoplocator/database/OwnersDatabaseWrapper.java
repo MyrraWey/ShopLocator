@@ -27,6 +27,7 @@ public class OwnersDatabaseWrapper extends DatabaseWrapper<Owner, OwnersCursorWr
         contentValues.put(OwnerTable.COLUMNS.UUID, item.getId().toString());
         contentValues.put(OwnerTable.COLUMNS.NAME, item.getName());
         contentValues.put(OwnerTable.COLUMNS.IMAGE_URL, item.getImageUrl());
+        contentValues.put(OwnerTable.COLUMNS.CREATED, item.getCreated());
         contentValues.put(OwnerTable.COLUMNS.UPDATED, item.getUpdated());
 
         return contentValues;
