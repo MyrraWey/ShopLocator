@@ -1,7 +1,6 @@
 package com.muravyovdmitr.shoplocator.util;
 
 import android.content.Context;
-import android.content.Loader;
 import android.content.SharedPreferences;
 
 /**
@@ -10,7 +9,6 @@ import android.content.SharedPreferences;
 public class SettingsManager {
     private static String SPLASHING_SCREEN_DURATION = "SplashScreenDuration";
     private static String SPLASHING_SCREEN_ENABLE = "SplashScreenEnable";
-    private static String LAST_SYNC_DATE = "LastSyncDate";
 
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
@@ -38,15 +36,5 @@ public class SettingsManager {
         this.mEditor
                 .putBoolean(SPLASHING_SCREEN_ENABLE, enable)
                 .commit();
-    }
-
-    public void setLastSyncDate(String lastSyncDate) {
-        this.mEditor
-                .putString(LAST_SYNC_DATE, lastSyncDate)
-                .commit();
-    }
-
-    public String getLastSyncDate() {
-        return this.mPreferences.getString(LAST_SYNC_DATE, null);
     }
 }

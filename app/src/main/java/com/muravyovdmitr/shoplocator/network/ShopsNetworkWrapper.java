@@ -99,7 +99,11 @@ public class ShopsNetworkWrapper implements IDataOperations<Shop> {
 
         try {
             Response<BackendlessListResponse<Shop>> response = mService.getShopByQuery(prepareShopId(shopId)).execute();
-            shop = response.body().getItemsList().get(0);
+            if (response.body() != null && !response.body().getItemsList().isEmpty()) {
+                shop = response.body().getItemsList().get(0);
+            } else {
+                shop = null;
+            }
         } catch (IOException e) {
             shop = null;
         }

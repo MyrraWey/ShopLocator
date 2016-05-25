@@ -99,7 +99,11 @@ public class OwnersNetworkWrapper implements IDataOperations<Owner> {
 
         try {
             Response<BackendlessListResponse<Owner>> response = mService.getOwnerByQuery(prepareOwnerId(ownerId)).execute();
-            owner = response.body().getItemsList().get(0);
+            if (response.body() != null && !response.body().getItemsList().isEmpty()) {
+                owner = response.body().getItemsList().get(0);
+            } else {
+                owner = null;
+            }
         } catch (IOException e) {
             owner = null;
         }
