@@ -105,7 +105,7 @@ public abstract class BaseListFragment<LA extends RecyclerView.Adapter> extends 
 
             mDataSync.OnDataSync();
 
-            mProgressDialog.hide();
+            mProgressDialog.dismiss();
         }
 
         private void initProgressDialog() {
