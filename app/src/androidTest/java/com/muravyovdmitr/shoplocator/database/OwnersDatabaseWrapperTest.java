@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,7 +28,7 @@ import java.util.UUID;
 public class OwnersDatabaseWrapperTest {
     private Context mContext;
     private ShopLocatorDbHelper mDbHelper;
-    private IDataOperations<Owner> mCrudOPerations;
+    private IDataOperations<Owner> mCrudOperations;
 
     @Before
     public void setUp() {
@@ -37,7 +38,7 @@ public class OwnersDatabaseWrapperTest {
         );
 
         mDbHelper = new ShopLocatorDbHelper(mContext);
-        mCrudOPerations = new OwnersDatabaseWrapper(mContext);
+        mCrudOperations = new OwnersDatabaseWrapper(mContext);
     }
 
     @After
@@ -46,7 +47,7 @@ public class OwnersDatabaseWrapperTest {
     }
 
     @Test
-    public void readDataFromDatabase() {
+    public void readSingleItemFromDatabase() {
         Owner owner = getOwner();
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -70,11 +71,86 @@ public class OwnersDatabaseWrapperTest {
         );
         statement.execute();
 
-        Owner resultOwner = mCrudOPerations.getItem(owner.getId());
+        Owner resultOwner = mCrudOperations.getItem(owner.getId());
         Assert.assertTrue("Read data from database", owner.equals(resultOwner));
 
         resultOwner.setName("Changed name");
         Assert.assertFalse("Read data from database", owner.equals(resultOwner));
+    }
+
+    @Test
+    public void readItemsListFromDatabase() {
+        Owner[] owners = new Owner[]{getOwner(), getOwner()};
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        SQLiteStatement statement = database.compileStatement(
+                "INSERT INTO " + OwnerTable.NAME + " (" +
+                        OwnerTable.COLUMNS.UUID + "," +
+                        OwnerTable.COLUMNS.NAME + "," +
+                        OwnerTable.COLUMNS.IMAGE_URL + "," +
+                        OwnerTable.COLUMNS.CREATED + "," +
+                        OwnerTable.COLUMNS.UPDATED +
+                        ") VALUES (?,?,?,?,?);"
+        );
+        statement.bindAllArgsAsStrings(
+                new String[]{
+                        owners[0].getId().toString(),
+                        owners[0].getName(),
+                        owners[0].getImageUrl(),
+                        owners[0].getCreated(),
+                        owners[0].getUpdated()
+                }
+        );
+        statement.execute();
+        statement.bindAllArgsAsStrings(
+                new String[]{
+                        owners[1].getId().toString(),
+                        owners[1].getName(),
+                        owners[1].getImageUrl(),
+                        owners[1].getCreated(),
+                        owners[1].getUpdated()
+                }
+        );
+        statement.execute();
+
+        List<Owner> resultOwners = mCrudOperations.getItems();
+        Assert.assertEquals("Not all data saved", 2, resultOwners.size());
+        Assert.assertArrayEquals("Problem with object reading", owners, resultOwners.toArray());
+    }
+
+    @Test
+    public void writeDataToDatabase(){
+        Owner owner = getOwner();
+        mCrudOperations.addItem(owner);
+
+        Assert.assertEquals("Writing error", owner, mCrudOperations.getItem(owner.getId()));
+        Assert.assertEquals("Wrong items count", 1, mCrudOperations.getItems().size());
+    }
+
+    @Test
+    public void updateDataFromDatabase(){
+        Owner owner = getOwner();
+        mCrudOperations.addItem(owner);
+
+        owner.setName("New Name");
+        mCrudOperations.updateItem(owner);
+
+        Assert.assertEquals("Updating error", owner, mCrudOperations.getItem(owner.getId()));
+    }
+    @Test
+    public void deleteDataFromDatabase(){
+        Owner[] owners = new Owner[]{getOwner(), getOwner()};
+
+        mCrudOperations.addItem(owners[0]);
+        Assert.assertEquals(1,mCrudOperations.getItems().size());
+        mCrudOperations.addItem(owners[1]);
+        Assert.assertEquals(2,mCrudOperations.getItems().size());
+
+        mCrudOperations.deleteItem(owners[1]);
+        Assert.assertEquals(1, mCrudOperations.getItems().size());
+        Assert.assertEquals(owners[0], mCrudOperations.getItems().get(0));
+        mCrudOperations.deleteItem(owners[0]);
+        Assert.assertEquals(0, mCrudOperations.getItems().size());
     }
 
     private Owner getOwner() {
